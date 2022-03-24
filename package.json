@@ -1,0 +1,21 @@
+{
+  "name": "ch.hslu.bestpracticechecker",
+  "version": "0.2.0",
+  "displayName": "Best Practice Checker",
+  "description": "This package checks your project on best practice guidelines. This tool adds a menu option to Tools > Best Practice Checker",
+  "unity": "2020.3",
+  "unityRelease": "28f1",
+  "keywords": [
+    "Best Practice",
+    "Checker",
+    "Project Quality"
+  ],
+  "author": {
+    "name": "Oliver Amstutz",
+    "email": "oliver.amstutz@stud.hslu.ch"
+  },
+  "dependencies": {
+    "com.unity.editorcoroutines": "1.0.0"
+  },
+  "type": "tool"
+}
