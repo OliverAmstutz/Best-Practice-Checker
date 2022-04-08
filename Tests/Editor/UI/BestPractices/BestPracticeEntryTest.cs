@@ -29,7 +29,7 @@ namespace BestPracticeChecker.Tests.Editor.UI.BestPractices
             Assert.False(bpe.IsActive());
         }
 
-        [Test]
+        /*[Test]
         [Ignore("NullPointerException in EditorCoroutine - potential bug in package?")]
         public void TestRunBestPractice()
         {
@@ -37,7 +37,7 @@ namespace BestPracticeChecker.Tests.Editor.UI.BestPractices
                 BestPracticeName.Test_Framework, new PersistorStub(), new WebAccessDummy(), new BusinessLogicDummy(),
                 new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bpe.RunBestPractice);
-        }
+        }*/
 
         [Test]
         public void TestHasResultDefaultValues()
