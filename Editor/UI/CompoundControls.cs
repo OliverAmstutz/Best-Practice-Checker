@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using BestPracticeChecker.Editor.BusinessLogic.BestPractices;
+using System.Linq;
+using BestPracticeChecker.Editor.BusinessLogic.Persistor;
+using BestPracticeChecker.Editor.UI.BestPractices;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -9,26 +11,34 @@ using UnityEngine;
 namespace BestPracticeChecker.Editor.UI
 {
     [Serializable]
-    public class CompoundControls : ScriptableObject
+    public sealed class CompoundControls : ScriptableObject
     {
-        private const string ClassKey = "BEST_PRACTICE_CHECKER_";
+        private const string ClassKey = "BEST_PRACTICE_CHECKER_CompoundControls_";
         private const string DeselectAllText = "De-Select All";
-        private const string FixAllText = "Fix All";
+        private const string FixAllText = "Fix All                ";
         private const string ObjectKey = "CompoundControls";
         private const string RunSelectedText = "Run selected";
         private const string ScrollVarKey = "_scrollPosition";
-        private const string SelectAllText = "Select All";
-        private const string StopText = "Stop";
+        private const string SelectAllText = "Select All   ";
+        private const string StopText = "Stop              ";
+
         private readonly List<BestPracticeEntry> _listOfBestPractices = new List<BestPracticeEntry>();
+        private IPersistor _persistor = new Persistor();
 
         private Vector2 _scrollPosition;
 
-        private void OnEnable()
+        public void Init()
         {
-            _scrollPosition = JsonUtility.FromJson<Vector2>(EditorPrefs.GetString(
-                ClassKey + ObjectKey + ScrollVarKey, JsonUtility.ToJson(new Vector2(0.0f, 0.0f))));
+            _scrollPosition = JsonUtility.FromJson<Vector2>(_persistor.Load(ClassKey + ObjectKey + ScrollVarKey,
+                JsonUtility.ToJson(new Vector2(0.0f, 0.0f))));
             BestPracticeCheckerEditor.BeforeShutdown += PersistState;
-            _listOfBestPractices.AddRange(InstantiateBestPractice.All());
+            _listOfBestPractices.AddRange(BestPracticeEntryFactory.CreateAll());
+        }
+
+        public void Init(IPersistor persistor)
+        {
+            _persistor = persistor;
+            Init();
         }
 
         public void BestPractices()
@@ -37,8 +47,7 @@ namespace BestPracticeChecker.Editor.UI
 
             using (new GUILayout.VerticalScope(EditorStyles.helpBox))
             {
-                foreach (var bpe in _listOfBestPractices)
-                    bpe.BestPracticeEntryUI();
+                _listOfBestPractices.ForEach(bpe => bpe.BestPracticeEntryUI());
             }
 
             EditorGUILayout.EndScrollView();
@@ -47,6 +56,7 @@ namespace BestPracticeChecker.Editor.UI
 
         public void SelectionButtons()
         {
+            GUI.skin.button.alignment = TextAnchor.MiddleLeft;
             using (new GUILayout.VerticalScope())
             {
                 using (new GUILayout.HorizontalScope())
@@ -64,7 +74,7 @@ namespace BestPracticeChecker.Editor.UI
 
                     using (new EditorGUI.DisabledScope(HasNoInactiveBestPractices() || IsRunning()))
                     {
-                        if (GUILayout.Button(SelectAllText)) SelectAll();
+                        if (GUILayout.Button(SelectAllText, GUILayout.ExpandWidth(true))) SelectAll();
                     }
                 }
 
@@ -85,18 +95,13 @@ namespace BestPracticeChecker.Editor.UI
 
         private void FixAll()
         {
-            foreach (var bpe in _listOfBestPractices)
-                if (HasFix(bpe))
-                    bpe.Fix();
+            foreach (var bpe in _listOfBestPractices.Where(HasFix))
+                bpe.Fix();
         }
 
         private bool HasFixWithinAllBestPractices()
         {
-            foreach (var bpe in _listOfBestPractices)
-                if (HasFix(bpe))
-                    return true;
-
-            return false;
+            return _listOfBestPractices.Any(HasFix);
         }
 
         private bool HasFix(BestPracticeEntry bpe)
@@ -106,9 +111,8 @@ namespace BestPracticeChecker.Editor.UI
 
         private void StopRunning()
         {
-            foreach (var bpe in _listOfBestPractices)
-                if (bpe.IsRunning())
-                    bpe.Stop();
+            foreach (var bpe in _listOfBestPractices.Where(bpe => bpe.IsRunning()))
+                bpe.Stop();
         }
 
         private void RunSelected()
@@ -118,33 +122,32 @@ namespace BestPracticeChecker.Editor.UI
 
         private void SelectAll()
         {
-            foreach (var bestPracticeEntry in _listOfBestPractices)
-                if (!bestPracticeEntry.IsActive())
-                {
-                    Undo.RecordObject(bestPracticeEntry, SelectAllText);
-                    bestPracticeEntry.SwitchActive();
-                }
+            foreach (var bestPracticeEntry in _listOfBestPractices.Where(bestPracticeEntry =>
+                         !bestPracticeEntry.IsActive()))
+            {
+                Undo.RecordObject(bestPracticeEntry, SelectAllText);
+                bestPracticeEntry.SwitchActive();
+            }
         }
 
         private void DeSelectAll()
         {
-            foreach (var bestPracticeEntry in _listOfBestPractices)
-                if (bestPracticeEntry.IsActive())
-                {
-                    Undo.RecordObject(bestPracticeEntry, DeselectAllText);
-                    bestPracticeEntry.SwitchActive();
-                }
+            foreach (var bestPracticeEntry in _listOfBestPractices.Where(bestPracticeEntry =>
+                         bestPracticeEntry.IsActive()))
+            {
+                Undo.RecordObject(bestPracticeEntry, DeselectAllText);
+                bestPracticeEntry.SwitchActive();
+            }
         }
 
 
         private IEnumerator RunAllBestPractices()
         {
-            foreach (var bpe in _listOfBestPractices)
-                if (bpe.IsActive())
-                {
-                    EditorCoroutineUtility.StartCoroutineOwnerless(RunBestPractice(bpe));
-                    yield return null;
-                }
+            foreach (var bpe in _listOfBestPractices.Where(bpe => bpe.IsActive()))
+            {
+                EditorCoroutineUtility.StartCoroutineOwnerless(RunBestPractice(bpe));
+                yield return null;
+            }
         }
 
         private IEnumerator RunBestPractice(BestPracticeEntry bpe)
@@ -155,34 +158,22 @@ namespace BestPracticeChecker.Editor.UI
 
         private bool HasNoActiveBestPractices()
         {
-            foreach (var bpe in _listOfBestPractices)
-                if (bpe.IsActive())
-                    return false;
-
-            return true;
+            return _listOfBestPractices.All(bpe => !bpe.IsActive());
         }
 
         private bool HasNoInactiveBestPractices()
         {
-            foreach (var bpe in _listOfBestPractices)
-                if (!bpe.IsActive())
-                    return false;
-
-            return true;
+            return _listOfBestPractices.All(bpe => bpe.IsActive());
         }
 
         private bool IsRunning()
         {
-            foreach (var bpe in _listOfBestPractices)
-                if (bpe.IsRunning())
-                    return true;
-
-            return false;
+            return _listOfBestPractices.Any(bpe => bpe.IsRunning());
         }
 
-        public void PersistState()
+        private void PersistState()
         {
-            EditorPrefs.SetString(ClassKey + ObjectKey + ScrollVarKey, JsonUtility.ToJson(_scrollPosition));
+            _persistor.Save(ClassKey + ObjectKey + ScrollVarKey, JsonUtility.ToJson(_scrollPosition));
             BestPracticeCheckerEditor.BeforeShutdown -= PersistState;
         }
     }

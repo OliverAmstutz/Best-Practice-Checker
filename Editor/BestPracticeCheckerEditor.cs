@@ -1,10 +1,10 @@
-using BestPracticeChecker.Editor.BusinessLogic;
+using BestPracticeChecker.Editor.BusinessLogic.BestPractices;
 using BestPracticeChecker.Editor.UI;
 using UnityEditor;
 
 namespace BestPracticeChecker.Editor
 {
-    public class BestPracticeCheckerEditor : EditorWindow
+    public sealed class BestPracticeCheckerEditor : EditorWindow
     {
         public delegate void ExecuteBeforeShutdown();
 
@@ -13,7 +13,7 @@ namespace BestPracticeChecker.Editor
 
         private void OnEnable()
         {
-            _cc = CreateInstance<CompoundControls>();
+            _cc = CompoundControlsFactory.Create();
             BestPractice.UpdateUI += Repaint;
             Undo.undoRedoPerformed += Repaint;
         }
@@ -22,7 +22,7 @@ namespace BestPracticeChecker.Editor
         {
             BestPractice.UpdateUI -= Repaint;
             Undo.undoRedoPerformed -= Repaint;
-            if (BeforeShutdown != null) BeforeShutdown();
+            BeforeShutdown?.Invoke();
         }
 
         private void OnGUI()

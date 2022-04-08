@@ -4,7 +4,8 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "hslu.bestpracticechecker.Editor"
+        "hslu.bestpracticechecker.Editor",
+        "Unity.EditorCoroutines.Editor"
     ],
     "includePlatforms": [
         "Editor"

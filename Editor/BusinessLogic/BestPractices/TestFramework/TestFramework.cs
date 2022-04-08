@@ -1,72 +1,86 @@
-using System;
 using System.Collections;
-using BestPracticeChecker.Editor.Helper;
-using BestPracticeChecker.Editor.UI;
-using Unity.EditorCoroutines.Editor;
-using UnityEditor;
+using BestPracticeChecker.Editor.UI.BestPractices.TestFramework;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework
 {
-    [Serializable]
     public sealed class TestFramework : BestPractice
     {
-        private const bool CanBeFixed = false;
         private const string ObjectKey = "TestFrameworkResultContent";
         private const string ResultVarKey = "_result";
+        private const string CanBeFixedVarKey = "_canBeFixed";
+        private ITestFrameworkBusinessLogic _businessLogic;
+        private bool _canBeFixed;
         private TestFrameworkResultContent _result;
 
-        protected override void OnEnable()
+        public override void Init()
         {
-            base.OnEnable();
-            EditorApplication.hierarchyChanged += IsDirty;
+            base.Init();
+            if (BusinessLogic == null)
+                _businessLogic = new TestFrameworkBusinessLogic();
+            else
+                _businessLogic = (ITestFrameworkBusinessLogic) BusinessLogic;
+            Events.registeredPackages += IsDirtyUpdate;
+        }
+
+        private void IsDirtyUpdate(PackageRegistrationEventArgs action)
+        {
+            IsDirty();
         }
 
         protected override IEnumerator Evaluation()
         {
-            _result = new TestFrameworkResultContent("Best Practice Result of " + BpName);
+            _businessLogic.Evaluation();
+            _result = _businessLogic.Result();
+            _canBeFixed = _businessLogic.CanBeFixed();
+            status = _businessLogic.GetStatus();
 
-            yield return new EditorWaitForSeconds(2f);
-            status = Status.Ok; //ToDo: Make this dependent on the result!
+            yield return null;
+
             UpdateUserInterfaceAfterEvaluation();
         }
 
         public override void Fix()
         {
-            Debug.Log("Fix best practice here!");
+            _businessLogic.Fix();
         }
 
         public override void ShowResults()
         {
-            var window = (ResultEditor) EditorWindow.GetWindow(typeof(TestFrameworkResult),
-                true, BpName + " Result", true);
-            window.GetBestPracticeData(this);
-            window.ShowAuxWindow();
+            ResultEditorFactory.InitialiseResultWindow<TestFrameworkResult>(this);
         }
 
         protected override void LoadPersistedData()
         {
-            status = (Status) EditorPrefs.GetInt(CLASS_KEY + ObjectKey + STATUS_VAR_KEY, 0);
-            _result = JsonUtility.FromJson<TestFrameworkResultContent>(EditorPrefs.GetString(
-                CLASS_KEY + ObjectKey + ResultVarKey,
-                JsonUtility.ToJson(new TestFrameworkResultContent("UNDEFINED"))));
+            _canBeFixed = Persistor.Load(CLASS_KEY + ObjectKey + CanBeFixedVarKey, false);
+            status = (Status) Persistor.Load(CLASS_KEY + ObjectKey + STATUS_VAR_KEY, 0);
+            _result = JsonUtility.FromJson<TestFrameworkResultContent>(Persistor.Load(
+                CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(new TestFrameworkResultContent())));
         }
 
         protected override void PersistData()
         {
             base.PersistData();
-            EditorPrefs.SetInt(CLASS_KEY + ObjectKey + STATUS_VAR_KEY, (int) status);
-            EditorPrefs.SetString(CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(_result));
+            Persistor.Save(CLASS_KEY + ObjectKey + CanBeFixedVarKey, _canBeFixed);
+            Persistor.Save(CLASS_KEY + ObjectKey + STATUS_VAR_KEY, (int) status);
+            Persistor.Save(CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(_result));
         }
 
         public override bool HasFix()
         {
-            return CanBeFixed;
+            return _canBeFixed;
         }
 
         public override IResult GetResult()
         {
-            return _result;
+            return _result ??= new TestFrameworkResultContent();
+        }
+
+        protected override void CleanUp()
+        {
+            base.CleanUp();
+            Events.registeredPackages -= IsDirtyUpdate;
         }
     }
 }
