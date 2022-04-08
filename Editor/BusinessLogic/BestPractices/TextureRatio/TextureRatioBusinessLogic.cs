@@ -61,8 +61,8 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
 
         private void AnalyseTexture(Texture texture)
         {
-            if (texture is RenderTexture) return;
             var textureImporter = AssetImportProvider.ImporterForTexture(texture);
+            if (textureImporter == null) return;
             var isUnCompressed = textureImporter.textureCompression.Equals(TextureImporterCompression.Uncompressed);
             if (texture.width % 2 != 0 || texture.height % 2 != 0)
             {

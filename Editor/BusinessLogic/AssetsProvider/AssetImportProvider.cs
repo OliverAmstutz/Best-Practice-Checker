@@ -8,7 +8,14 @@ namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
         public static TextureImporter ImporterForTexture(Texture texture)
         {
             var path = AssetDatabase.GetAssetPath(texture);
-            return (TextureImporter) AssetImporter.GetAtPath(path);
+            try
+            {
+                return (TextureImporter) AssetImporter.GetAtPath(path);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
