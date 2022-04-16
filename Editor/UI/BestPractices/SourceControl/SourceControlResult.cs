@@ -1,4 +1,5 @@
 using BestPracticeChecker.Editor.BusinessLogic.BestPractices;
+using BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl;
 using UnityEngine;
 
 namespace BestPracticeChecker.Editor.UI.BestPractices.SourceControl
@@ -10,7 +11,8 @@ namespace BestPracticeChecker.Editor.UI.BestPractices.SourceControl
 
         protected override void DisplayResult()
         {
-            if (_result == null && _bestPractice != null) _result = _bestPractice.GetResult();
+            if (_result == null && _bestPractice != null)
+                _result = (SourceControlResultContent) _bestPractice.GetResult();
 
             if (_result != null)
                 GUILayout.Label(_result.Content());

@@ -6,7 +6,7 @@ namespace BestPracticeChecker.Editor.UI.BestPractices
 {
     public class ResultEditorFactory : IResultEditorFactory
     {
-        private static readonly Vector2 MaxResultSizeWindow = new Vector2(400f, 3000f);
+        private static readonly Vector2 MaxUndockedResultWindowSize = new Vector2(800f, 3000f);
 
         public ResultEditor InitialiseResultWindow<T>(BestPractice bP) where T : ResultEditor
         {
@@ -14,7 +14,7 @@ namespace BestPracticeChecker.Editor.UI.BestPractices
                 true, bP.GetName() + " Result", true);
             window.Init();
             window.GetBestPracticeData(bP);
-            window.maxSize = MaxResultSizeWindow;
+            window.maxSize = MaxUndockedResultWindowSize;
             window.ShowAuxWindow();
             return window;
         }

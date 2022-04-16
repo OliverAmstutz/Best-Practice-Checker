@@ -1,6 +1,7 @@
 using BestPracticeChecker.Editor.BusinessLogic.BestPractices;
 using BestPracticeChecker.Editor.UI;
 using UnityEditor;
+using UnityEngine;
 
 namespace BestPracticeChecker.Editor
 {
@@ -9,6 +10,7 @@ namespace BestPracticeChecker.Editor
         public delegate void ExecuteBeforeShutdown();
 
         private const string ToolName = "Best Practice Checker";
+        private static readonly Vector2 MaxUndockedToolWindowSize = new Vector2(400, 200);
         private CompoundControls _cc;
 
         private void OnEnable()
@@ -36,7 +38,8 @@ namespace BestPracticeChecker.Editor
         [MenuItem("Tools/" + ToolName)]
         private static void OpenBestPracticeCheckerEditor()
         {
-            GetWindow<BestPracticeCheckerEditor>(ToolName);
+            var window = GetWindow<BestPracticeCheckerEditor>(ToolName);
+            window.maxSize = MaxUndockedToolWindowSize;
         }
     }
 }

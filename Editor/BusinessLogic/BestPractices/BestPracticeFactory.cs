@@ -19,8 +19,9 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices
                 new ResultEditorFactory());
         }
 
+
         public static IBestPractice Create<T>(BestPracticeName bpName, IPersistor persistor,
-            IWebAccess webAccess, IBusinessLogic businessLogic, IResultEditorFactory resultEditorFactory)
+            IWebAccess webAccess, IBusinessLogic<IResult> businessLogic, IResultEditorFactory resultEditorFactory)
             where T : BestPractice
         {
             var bp = CreateInstance<T>();

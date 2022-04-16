@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl
 {
-    public class SourceControlBusinessLogic : ISourceControlBusinessLogic
+    public class SourceControlBusinessLogic : IBusinessLogic<SourceControlResultContent>
     {
         private const string UnityVersionControlPackage = "com.unity.collab-proxy";
         private const string GitFolderName = ".git";

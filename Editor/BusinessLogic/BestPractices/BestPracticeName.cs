@@ -8,6 +8,9 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices
         Placeholder,
         Test_Framework,
         Texture_Ratio,
-        Source_Control
+        Source_Control,
+        Audio_Format,
+        Code_Coverage,
+        No_Assets_In_Root
     }
 }

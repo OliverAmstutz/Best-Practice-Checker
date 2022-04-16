@@ -1,6 +1,6 @@
 {
   "name": "ch.hslu.bestpracticechecker",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "displayName": "Best Practice Checker",
   "description": "This package checks your project on best practice guidelines. This tool adds a menu option to Tools > Best Practice Checker",
   "unity": "2020.3",

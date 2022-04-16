@@ -10,30 +10,30 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
         private const string ObjectKey = "TextureRatioContent";
         private const string ResultVarKey = "_result";
         private const string CanBeFixedVarKey = "_canBeFixed";
-        private ITextureRatioBusinessLogic _businessLogic;
         private bool _canBeFixed;
         private TextureRatioResultContent _result;
 
         public override void Init()
         {
             base.Init();
-            _businessLogic = new TextureRatioBusinessLogic();
+            if (BusinessLogic == null)
+                BusinessLogic = new TextureRatioBusinessLogic();
             TextureUpdateDetector.ImportTexture += IsDirty;
         }
 
         protected override IEnumerator Evaluation()
         {
-            _businessLogic.Evaluation();
-            _result = _businessLogic.Result();
-            status = _businessLogic.GetStatus();
-            _canBeFixed = _businessLogic.CanBeFixed();
+            BusinessLogic.Evaluation();
+            _result = (TextureRatioResultContent) BusinessLogic.Result();
+            status = BusinessLogic.GetStatus();
+            _canBeFixed = BusinessLogic.CanBeFixed();
             yield return null;
             UpdateUserInterfaceAfterEvaluation();
         }
 
         public override void Fix()
         {
-            _businessLogic.Fix();
+            BusinessLogic.Fix();
 
             EditorCoroutineUtility.StartCoroutineOwnerless(Evaluation());
         }

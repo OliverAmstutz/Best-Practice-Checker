@@ -69,7 +69,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
             AssetDatabase.DeleteAsset(targetPath + "/" + fileName);
             AssetDatabase.Refresh();
 
-            Assert.That(bL.GetStatus() == Status.Error);
+            Assert.That(bL.GetStatus() == Status.Warning);
             Assert.IsTrue(bL.CanBeFixed());
         }
 
@@ -95,7 +95,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
             AssetDatabase.DeleteAsset(targetPath + "/" + fileName);
             AssetDatabase.Refresh();
 
-            Assert.That(bL.GetStatus() == Status.Error);
+            Assert.That(bL.GetStatus() == Status.Warning);
             Assert.IsTrue(bL.CanBeFixed());
         }
 
@@ -125,6 +125,14 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
 
             Assert.That(bL.GetStatus() == Status.Ok);
             Assert.IsFalse(bL.CanBeFixed());
+        }
+
+        [Test]
+        public void TestResult()
+        {
+            var bL = new TextureRatioBusinessLogic();
+            Assert.IsEmpty(bL.Result().FaultyTextures());
+            Assert.That(bL.Result().Content().Contains("Something went wrong in the texture ratio initialization!"));
         }
     }
 }

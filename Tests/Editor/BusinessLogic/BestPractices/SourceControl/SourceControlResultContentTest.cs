@@ -18,7 +18,9 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.SourceControl
         {
             var result = new SourceControlResultContent();
             result.Status(SourceControlStatus.GitVersionControlSetting);
-            Assert.That(result.Content().Contains("It seems, Git is used for Source control."));
+            Assert.That(result.Content()
+                .Contains(
+                    "You use git without the appropriate Version Control settings. Turn Version Control mode to \"Visible Meta Files\" in the Project Settings."));
         }
 
         [Test]
@@ -26,7 +28,9 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.SourceControl
         {
             var result = new SourceControlResultContent();
             result.Status(SourceControlStatus.UnityVersionControlOk);
-            Assert.That(result.Content().Contains("Unity Version Control is used."));
+            Assert.That(result.Content()
+                .Contains(
+                    "Unity Version Control is used. Resources in the documentation recommend to use Git instead of Unity version control system."));
         }
 
         [Test]
@@ -34,7 +38,9 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.SourceControl
         {
             var result = new SourceControlResultContent();
             result.Status(SourceControlStatus.UnityVersionControlOkAndVersionControlSetting);
-            Assert.That(result.Content().Contains("The Version Control mode is not set to Unity Version control."));
+            Assert.That(result.Content()
+                .Contains(
+                    "The Version Control mode is not configured appropriately. Turn Version Control mode to \"Perforce\" in the Project Settings."));
         }
 
 
@@ -52,7 +58,8 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.SourceControl
         {
             var result = new SourceControlResultContent();
             result.Status(SourceControlStatus.UnityVersionControlOutdatedAndVersionControlSetting);
-            Assert.That(result.Content().Contains("In addition, the Version Control mode is not set to U"));
+            Assert.That(result.Content()
+                .Contains("In addition, the Version Control mode is not configured appropriately."));
         }
 
 
@@ -61,10 +68,12 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.SourceControl
         {
             var result = new SourceControlResultContent();
             result.Status(SourceControlStatus.NoSourceControl);
-            Assert.That(result.Content().Contains("You use no source control! It is highly recomme"));
+            Assert.That(result.Content()
+                .Contains(
+                    "You use no source control! It is highly recommended to use Git! Find resources or tutorials in this best practice documentation."));
         }
-        
-        
+
+
         [Test]
         public void TestDefault()
         {

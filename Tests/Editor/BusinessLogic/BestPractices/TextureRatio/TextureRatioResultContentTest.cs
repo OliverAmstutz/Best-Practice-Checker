@@ -1,6 +1,7 @@
 using BestPracticeChecker.Editor.BusinessLogic;
 using BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRatio
@@ -12,7 +13,8 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
         {
             var content = new TextureRatioResultContent();
             content.Status(Status.Ok);
-            Assert.That(content.Content().Contains("All your texture's width and height are based on two"));
+            Assert.That(content.Content()
+                .Contains("Excellent, all your texture's width and height are based on two with compression enabled."));
         }
 
         [Test]
@@ -22,7 +24,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
             content.Status(Status.Warning);
             Assert.That(content.Content()
                 .Contains(
-                    "You have textures which are not based on two - no texture compression is possible for these textures"));
+                    "You have either textures which dimension are not based on two, or textures with compression turned off."));
         }
 
         [Test]
@@ -49,8 +51,11 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
                 new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider()
                     .FindAllAssetsOfType<Texture>(
                         "Assets");
-            foreach (var texture in textures) content.AddFaultyTexture(new FaultyTexture(texture, true));
-            foreach (var tex in textures) Assert.True(content.FaultyTextures().Contains(new FaultyTexture(tex, true)));
+            foreach (var texture in textures)
+                content.AddFaultyTexture(new FaultyTexture(AssetDatabase.GetAssetPath(texture), true));
+            foreach (var tex in textures)
+                Assert.True(content.FaultyTextures()
+                    .Contains(new FaultyTexture(AssetDatabase.GetAssetPath(tex), true)));
         }
     }
 }

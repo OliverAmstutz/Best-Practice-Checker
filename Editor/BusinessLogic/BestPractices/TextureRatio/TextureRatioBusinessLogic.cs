@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
 {
-    public class TextureRatioBusinessLogic : ITextureRatioBusinessLogic
+    public class TextureRatioBusinessLogic : IBusinessLogic<TextureRatioResultContent>
     {
         private const string Root = "Assets";
         private readonly IAssetsProvider _assetsProvider;
@@ -68,31 +68,26 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
             {
                 if (_status.Equals(Status.Ok))
                 {
-                    if (isUnCompressed)
-                    {
-                        _status = Status.Error;
-                        _canBeFixed = true;
-                    }
-                    else
-                    {
-                        _status = Status.Warning;
-                    }
+                    if (isUnCompressed) _canBeFixed = true;
+                    _status = Status.Warning;
                 }
 
-                _result.AddFaultyTexture(new FaultyTexture(texture, isUnCompressed));
+                _result.AddFaultyTexture(new FaultyTexture(AssetDatabase.GetAssetPath(texture), isUnCompressed));
             }
             else
             {
                 if (!isUnCompressed) return;
-                _status = Status.Error;
+                _status = Status.Warning;
                 _canBeFixed = true;
-                _result.AddFaultyTexture(new FaultyTexture(texture, true));
+                _result.AddFaultyTexture(new FaultyTexture(AssetDatabase.GetAssetPath(texture), true));
             }
         }
 
         private static void FixTextureCompressionSetting(FaultyTexture faultyTexture)
         {
-            var textureImporter = AssetImportProvider.ImporterForTexture(faultyTexture.Texture());
+            var textureImporter =
+                AssetImportProvider.ImporterForTexture(
+                    AssetDatabase.LoadAssetAtPath<Texture>(faultyTexture.TexturePath()));
             textureImporter.textureCompression = TextureImporterCompression.Compressed;
             textureImporter.SaveAndReimport();
         }

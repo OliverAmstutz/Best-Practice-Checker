@@ -10,7 +10,6 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework
         private const string ObjectKey = "TestFrameworkResultContent";
         private const string ResultVarKey = "_result";
         private const string CanBeFixedVarKey = "_canBeFixed";
-        private ITestFrameworkBusinessLogic _businessLogic;
         private bool _canBeFixed;
         private TestFrameworkResultContent _result;
 
@@ -18,9 +17,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework
         {
             base.Init();
             if (BusinessLogic == null)
-                _businessLogic = new TestFrameworkBusinessLogic();
-            else
-                _businessLogic = (ITestFrameworkBusinessLogic) BusinessLogic;
+                BusinessLogic = new TestFrameworkBusinessLogic();
             Events.registeredPackages += IsDirtyUpdate;
         }
 
@@ -31,10 +28,10 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework
 
         protected override IEnumerator Evaluation()
         {
-            _businessLogic.Evaluation();
-            _result = _businessLogic.Result();
-            _canBeFixed = _businessLogic.CanBeFixed();
-            status = _businessLogic.GetStatus();
+            BusinessLogic.Evaluation();
+            _result = (TestFrameworkResultContent) BusinessLogic.Result();
+            _canBeFixed = BusinessLogic.CanBeFixed();
+            status = BusinessLogic.GetStatus();
 
             yield return null;
 
@@ -43,7 +40,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework
 
         public override void Fix()
         {
-            _businessLogic.Fix();
+            BusinessLogic.Fix();
         }
 
         public override void ShowResults()

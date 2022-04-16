@@ -18,7 +18,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
                 (BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio.TextureRatio) BestPracticeFactory
                     .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio.TextureRatio>(name,
                         new PersistorStub(), new WebAccessDummy(),
-                        new TextureRatioBusinessLogicFake(false, Status.NotCalculated, new TextureRatioResultContent()),
+                        new BusinessLogicStub(false, new TextureRatioResultContent(), Status.NotCalculated),
                         new ResultEditorFactoryDummy());
             Assert.False(bP.HasFix());
         }
@@ -31,7 +31,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
                 (BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio.TextureRatio) BestPracticeFactory
                     .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio.TextureRatio>(name,
                         new PersistorStub(), new WebAccessDummy(),
-                        new TextureRatioBusinessLogicFake(false, Status.NotCalculated, new TextureRatioResultContent()),
+                        new BusinessLogicStub(false, new TextureRatioResultContent(), Status.NotCalculated),
                         new ResultEditorFactoryDummy());
             Assert.NotNull(bP.GetResult());
         }
@@ -44,7 +44,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
                 (BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio.TextureRatio) BestPracticeFactory
                     .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio.TextureRatio>(name,
                         new PersistorStub(), new WebAccessDummy(),
-                        new TextureRatioBusinessLogicFake(false, Status.NotCalculated, new TextureRatioResultContent()),
+                        new BusinessLogicStub(false, new TextureRatioResultContent(), Status.NotCalculated),
                         new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bP.Run);
         }
@@ -57,7 +57,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
                 (BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio.TextureRatio) BestPracticeFactory
                     .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio.TextureRatio>(name,
                         new PersistorStub(), new WebAccessDummy(),
-                        new TextureRatioBusinessLogicFake(false, Status.NotCalculated, new TextureRatioResultContent()),
+                        new BusinessLogicStub(false, new TextureRatioResultContent(), Status.NotCalculated),
                         new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bP.Fix);
         }
@@ -70,7 +70,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
                 (BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio.TextureRatio) BestPracticeFactory
                     .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio.TextureRatio>(name,
                         new PersistorStub(), new WebAccessDummy(),
-                        new TextureRatioBusinessLogicFake(false, Status.NotCalculated, new TextureRatioResultContent()),
+                        new BusinessLogicStub(false, new TextureRatioResultContent(), Status.NotCalculated),
                         new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bP.ShowResults);
         }

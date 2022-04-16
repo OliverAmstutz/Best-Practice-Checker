@@ -76,6 +76,13 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.PackageUtility
         }
 
         [Test]
+        public void IntegrationTestIsUpToDateWithInvalidVerifiedVersion()
+        {
+            Assert.That(new BestPracticeChecker.Editor.BusinessLogic.PackageUtility.PackageUtility()
+                .StatusOfPackage("com.unity.testtools.codecoverage").Equals(PackageStatus.UpToDate));
+        }
+
+        [Test]
         [Order(1)]
         public void IntegrationTestInstallPackage()
         {

@@ -1,4 +1,5 @@
 using BestPracticeChecker.Editor.BusinessLogic.BestPractices;
+using BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework;
 using UnityEngine;
 
 namespace BestPracticeChecker.Editor.UI.BestPractices.TestFramework
@@ -11,7 +12,7 @@ namespace BestPracticeChecker.Editor.UI.BestPractices.TestFramework
         protected override void DisplayResult()
         {
             if (_result == null && _bestPractice != null)
-                _result = _bestPractice.GetResult();
+                _result = (TestFrameworkResultContent) _bestPractice.GetResult();
 
             if (_result != null)
                 GUILayout.Label(_result.Content());

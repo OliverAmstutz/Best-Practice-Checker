@@ -3,7 +3,7 @@ using BestPracticeChecker.Editor.BusinessLogic.PackageUtility;
 
 namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework
 {
-    public class TestFrameworkBusinessLogic : ITestFrameworkBusinessLogic
+    public class TestFrameworkBusinessLogic : IBusinessLogic<TestFrameworkResultContent>
     {
         private const string TestFrameWorkPackageName = "com.unity.test-framework";
         private readonly IPackageUtility _pu;
@@ -33,20 +33,20 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework
                 {
                     _canBeFixed = false;
                     _status = Status.Ok;
-                    _result.Status(Status.Ok);
+                    _result.Status(PackageStatus.UpToDate);
                 }
                 else
                 {
                     _canBeFixed = true;
                     _status = Status.Warning;
-                    _result.Status(Status.Warning);
+                    _result.Status(PackageStatus.Outdated);
                 }
             }
             else
             {
                 _canBeFixed = true;
                 _status = Status.Error;
-                _result.Status(Status.Error);
+                _result.Status(PackageStatus.NotInstalled);
             }
         }
 

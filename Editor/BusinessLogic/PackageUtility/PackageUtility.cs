@@ -39,8 +39,16 @@ namespace BestPracticeChecker.Editor.BusinessLogic.PackageUtility
         {
             if (!_listRequest.IsCompleted) WaitForInitialisation();
             ReinitialisePackages();
-            return _packages.Where(packageInfo => packageInfo.name.Equals(packageName)).Select(packageInfo =>
-                packageInfo.versions.verified.Equals(GetVersionFromPackageId(packageInfo.packageId))).FirstOrDefault();
+            foreach (var packageInfo in _packages)
+                if (packageInfo.name.Equals(packageName))
+                {
+                    var version = packageInfo.versions.verified;
+                    if (version.Equals("") && GetLatestVerifiedVersion(packageInfo)
+                            .Equals(GetVersionFromPackageId(packageInfo.packageId))) return true;
+                    if (version.Equals(GetVersionFromPackageId(packageInfo.packageId))) return true;
+                }
+
+            return false;
         }
 
         public void InstallLatestPackage(string packageName)
@@ -68,6 +76,19 @@ namespace BestPracticeChecker.Editor.BusinessLogic.PackageUtility
             }
 
             Debug.Log("Removing " + packageName + " was a: " + rmRequest.Status);
+        }
+
+        private string GetLatestVerifiedVersion(PackageInfo packageInfo)
+        {
+            var allVersions = packageInfo.versions.all;
+            for (var i = allVersions.Length - 1; i >= 0; i--)
+            {
+                var split = allVersions[i].Split('.', '-');
+                if (split.Length != 3) continue;
+                return allVersions[i];
+            }
+
+            return "";
         }
 
         private void WaitForInitialisation()

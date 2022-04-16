@@ -13,8 +13,8 @@ namespace BestPracticeChecker.Tests.Editor.UI.BestPractices
         [Test]
         public void TestIsActiveDefaultValue()
         {
-            var bpe = BestPracticeEntryFactory.Create<BestPracticeStub>(
-                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicDummy(),
+            var bpe = BestPracticeEntryFactory.Create<BestPracticeDummy>(
+                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
                 new ResultEditorFactoryDummy());
             Assert.True(bpe.IsActive());
         }
@@ -22,8 +22,8 @@ namespace BestPracticeChecker.Tests.Editor.UI.BestPractices
         [Test]
         public void TestSwitchActive()
         {
-            var bpe = BestPracticeEntryFactory.Create<BestPracticeStub>(
-                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicDummy(),
+            var bpe = BestPracticeEntryFactory.Create<BestPracticeDummy>(
+                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
                 new ResultEditorFactoryDummy());
             bpe.SwitchActive();
             Assert.False(bpe.IsActive());
@@ -33,8 +33,8 @@ namespace BestPracticeChecker.Tests.Editor.UI.BestPractices
         [Ignore("NullPointerException in EditorCoroutine - potential bug in package?")]
         public void TestRunBestPractice()
         {
-            var bpe = BestPracticeEntryFactory.Create<BestPracticeStub>(
-                BestPracticeName.Test_Framework, new PersistorStub(), new WebAccessDummy(), new BusinessLogicDummy(),
+            var bpe = BestPracticeEntryFactory.Create<BestPracticeDummy>(
+                BestPracticeName.Test_Framework, new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
                 new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bpe.RunBestPractice);
         }*/
@@ -42,8 +42,8 @@ namespace BestPracticeChecker.Tests.Editor.UI.BestPractices
         [Test]
         public void TestHasResultDefaultValues()
         {
-            var bpe = BestPracticeEntryFactory.Create<BestPracticeStub>(
-                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicDummy(),
+            var bpe = BestPracticeEntryFactory.Create<BestPracticeDummy>(
+                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
                 new ResultEditorFactoryDummy());
             Assert.False(bpe.HasResult());
         }
@@ -51,8 +51,8 @@ namespace BestPracticeChecker.Tests.Editor.UI.BestPractices
         [Test]
         public void TestIsRunningDefaultValues()
         {
-            var bpe = BestPracticeEntryFactory.Create<BestPracticeStub>(
-                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicDummy(),
+            var bpe = BestPracticeEntryFactory.Create<BestPracticeDummy>(
+                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
                 new ResultEditorFactoryDummy());
             Assert.False(bpe.IsRunning());
         }
@@ -60,8 +60,8 @@ namespace BestPracticeChecker.Tests.Editor.UI.BestPractices
         [Test]
         public void TestStop()
         {
-            var bpe = BestPracticeEntryFactory.Create<BestPracticeStub>(
-                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicDummy(),
+            var bpe = BestPracticeEntryFactory.Create<BestPracticeDummy>(
+                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
                 new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bpe.Stop);
         }
@@ -69,8 +69,8 @@ namespace BestPracticeChecker.Tests.Editor.UI.BestPractices
         [Test]
         public void TestHasFix()
         {
-            var bpe = BestPracticeEntryFactory.Create<BestPracticeStub>(
-                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicDummy(),
+            var bpe = BestPracticeEntryFactory.Create<BestPracticeDummy>(
+                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
                 new ResultEditorFactoryDummy());
             Assert.False(bpe.HasFix());
         }
@@ -78,8 +78,8 @@ namespace BestPracticeChecker.Tests.Editor.UI.BestPractices
         [Test]
         public void TestFix()
         {
-            var bpe = BestPracticeEntryFactory.Create<BestPracticeStub>(
-                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicDummy(),
+            var bpe = BestPracticeEntryFactory.Create<BestPracticeDummy>(
+                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
                 new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bpe.Fix);
         }
@@ -87,8 +87,8 @@ namespace BestPracticeChecker.Tests.Editor.UI.BestPractices
         [Test]
         public void TestBestPracticeEntryUI()
         {
-            var bpe = BestPracticeEntryFactory.Create<BestPracticeStub>(
-                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicDummy(),
+            var bpe = BestPracticeEntryFactory.Create<BestPracticeDummy>(
+                BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
                 new ResultEditorFactoryDummy());
             Assert.Throws<NullReferenceException>(bpe.BestPracticeEntryUI);
         }

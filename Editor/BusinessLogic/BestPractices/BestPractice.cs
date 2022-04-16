@@ -23,7 +23,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices
         private IWebAccess _webAccess = new WebAccess.WebAccess();
 
         protected BestPracticeName BpName;
-        protected IBusinessLogic BusinessLogic;
+        protected IBusinessLogic<IResult> BusinessLogic;
 
         protected EditorCoroutine EditorCoroutine;
 
@@ -81,7 +81,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices
             LoadPersistedData();
         }
 
-        public void Init(IPersistor persistor, IWebAccess webAccess, IBusinessLogic businessLogic,
+        public void Init(IPersistor persistor, IWebAccess webAccess, IBusinessLogic<IResult> businessLogic,
             IResultEditorFactory resultEditorFactory)
         {
             Persistor = persistor;

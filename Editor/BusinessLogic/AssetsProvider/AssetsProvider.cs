@@ -15,8 +15,32 @@ namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
             var assets = AssetDatabase.FindAssets(typeName, new[] {searchInFolders});
             var assetsList = new List<T>();
             if (assets.Length <= 0) return assetsList;
-            assetsList.AddRange(assets.Select(asset => AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(asset))));
+            assetsList.AddRange(assets.Select(asset =>
+                AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(asset))));
             return assetsList.AsReadOnly();
+        }
+
+        public IReadOnlyList<Object> FindAllAssetsInFolder(string searchInFolder)
+        {
+            var assets = Directory.GetFiles(searchInFolder, "*.*", SearchOption.TopDirectoryOnly);
+            var assetsList = new List<Object>();
+            if (assets.Length <= 0) return assetsList;
+
+            assetsList.AddRange(from asset in assets
+                let subStrings = asset.Split('.')
+                let fileExtension = subStrings[subStrings.Length - 1]
+                where !fileExtension.Equals("meta") || !fileExtension.Equals("md")
+                select AssetDatabase.LoadAssetAtPath<Object>(asset)
+                into obj
+                where obj != null
+                select obj);
+
+            return assetsList.AsReadOnly();
+        }
+
+        public string FileExtensionOfAsset(Object asset)
+        {
+            return Path.GetExtension(AssetDatabase.GetAssetPath(asset));
         }
 
         public bool FindFileAssetFolder(string fileName)

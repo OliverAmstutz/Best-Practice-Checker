@@ -20,7 +20,10 @@ namespace BestPracticeChecker.Editor.UI.BestPractices
             {
                 Create<BusinessLogic.BestPractices.TestFramework.TestFramework>(BestPracticeName.Test_Framework),
                 Create<BusinessLogic.BestPractices.TextureRatio.TextureRatio>(BestPracticeName.Texture_Ratio),
-                Create<BusinessLogic.BestPractices.SourceControl.SourceControl>(BestPracticeName.Source_Control)
+                Create<BusinessLogic.BestPractices.SourceControl.SourceControl>(BestPracticeName.Source_Control),
+                Create<BusinessLogic.BestPractices.AudioFormat.AudioFormat>(BestPracticeName.Audio_Format),
+                Create<BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot>(BestPracticeName.No_Assets_In_Root),
+                Create<BusinessLogic.BestPractices.CodeCoverage.CodeCoverage>(BestPracticeName.Code_Coverage)
             };
         }
 
@@ -30,7 +33,7 @@ namespace BestPracticeChecker.Editor.UI.BestPractices
         }
 
         public static BestPracticeEntry Create<T>(BestPracticeName bpName,
-            IPersistor persistor, IWebAccess webAccess, IBusinessLogic businessLogic,
+            IPersistor persistor, IWebAccess webAccess, IBusinessLogic<IResult> businessLogic,
             IResultEditorFactory resultEditorFactory) where T : BestPractice
         {
             var bp = BestPracticeFactory.Create<T>(bpName, persistor, webAccess, businessLogic, resultEditorFactory);

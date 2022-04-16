@@ -7,17 +7,17 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
     public class FaultyTexture
     {
         [SerializeField] private bool isUnCompressed;
-        [SerializeField] private Texture texture;
+        [SerializeField] private string texturePath;
 
-        public FaultyTexture(Texture texture, bool isUnCompressed)
+        public FaultyTexture(string texturePath, bool isUnCompressed)
         {
-            this.texture = texture;
+            this.texturePath = texturePath;
             this.isUnCompressed = isUnCompressed;
         }
 
-        public Texture Texture()
+        public string TexturePath()
         {
-            return texture;
+            return texturePath;
         }
 
         public bool IsUnCompressed()
@@ -29,13 +29,13 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
         {
             if (!(obj is FaultyTexture faultyTexture)) return false;
 
-            return texture.Equals(faultyTexture.texture) && isUnCompressed.Equals(faultyTexture.isUnCompressed);
+            return texturePath.Equals(faultyTexture.texturePath) && isUnCompressed.Equals(faultyTexture.isUnCompressed);
         }
 
         public override int GetHashCode()
         {
             var hash = 17;
-            hash = hash * 31 + texture.GetHashCode();
+            hash = hash * 31 + texturePath.GetHashCode();
             hash = hash * 31 + isUnCompressed.GetHashCode();
             return hash;
         }

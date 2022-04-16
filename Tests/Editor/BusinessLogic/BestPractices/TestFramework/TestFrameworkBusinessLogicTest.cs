@@ -12,7 +12,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TestFrame
         [Test]
         public void TestEvaluationOk()
         {
-            var bL = new TestFrameworkBusinessLogic(new PackageUtilityMock(true, true, PackageStatus.UpToDate));
+            var bL = new TestFrameworkBusinessLogic(new PackageUtilityStub(true, true, PackageStatus.UpToDate));
             bL.Evaluation();
             Assert.That(bL.Result().Content().Contains("You have the Unity test framework installed and its up to date"));
             Assert.IsFalse(bL.CanBeFixed());
@@ -22,7 +22,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TestFrame
         [Test]
         public void TestEvaluationWarning()
         {
-            var bL = new TestFrameworkBusinessLogic(new PackageUtilityMock(true, false, PackageStatus.Outdated));
+            var bL = new TestFrameworkBusinessLogic(new PackageUtilityStub(true, false, PackageStatus.Outdated));
             bL.Evaluation();
             Assert.That(bL.Result().Content().Contains("You have the Unity test framework installed, but its not up to date!"));
             Assert.IsTrue(bL.CanBeFixed());
@@ -32,7 +32,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TestFrame
         [Test]
         public void TestEvaluationError()
         {
-            var bL = new TestFrameworkBusinessLogic(new PackageUtilityMock(false, false, PackageStatus.NotInstalled));
+            var bL = new TestFrameworkBusinessLogic(new PackageUtilityStub(false, false, PackageStatus.NotInstalled));
             bL.Evaluation();
             Assert.That(bL.Result().Content().Contains("You do not have the Unity test framework installed!"));
             Assert.IsTrue(bL.CanBeFixed());
@@ -50,7 +50,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TestFrame
         [Test]
         public void TestFix()
         {
-            Assert.DoesNotThrow(new TestFrameworkBusinessLogic(new PackageUtilityMock(true, true, PackageStatus.UpToDate)).Fix);
+            Assert.DoesNotThrow(new TestFrameworkBusinessLogic(new PackageUtilityStub(true, true, PackageStatus.UpToDate)).Fix);
         }
     }
 }

@@ -11,20 +11,29 @@ namespace BestPracticeChecker.Editor.UI.BestPractices
     public sealed class BestPracticeEntry : ScriptableObject
     {
         private const string ClassKey = "BEST_PRACTICE_CHECKER_BestPracticeEntry_";
+        private const int Height = 18;
+        private const int Width = 18;
         private const string StatusVarKey = "_isActive";
         private const string ResultButtonText = "Results";
         private const string DocumentationButtonText = "Documentation";
         [SerializeField] private bool isActive = true;
 
         private IBestPractice _bestPractice;
+        private Texture _errorTexture;
         private string _name = "";
+        private Texture _needUpdateTexture;
+        private Texture _notCalculatedTexture;
+        private Texture _notSelectedTexture;
         private string _objectKey = "";
+        private Texture _okTexture;
         private IPersistor _persistor = new Persistor();
         private SerializedProperty _propIsActive;
+        private Texture _runningTexture;
         private SerializedObject _so;
 
         private Status _status = Status.NotCalculated;
-
+        private Texture _unknownTexture;
+        private Texture _warningTexture;
 
         public void Init(IBestPractice bestPractice, string entityName)
         {
@@ -36,6 +45,7 @@ namespace BestPracticeChecker.Editor.UI.BestPractices
             BestPracticeCheckerEditor.BeforeShutdown += CleanUp;
             _objectKey = _bestPractice.GetName().ToString();
             isActive = _persistor.Load(ClassKey + _objectKey + StatusVarKey, true);
+            InitialiseUiTextures();
         }
 
         public void Init(IBestPractice bestPractice, string entityName, IPersistor persistor)
@@ -53,16 +63,71 @@ namespace BestPracticeChecker.Editor.UI.BestPractices
 
         public void BestPracticeEntryUI()
         {
-            using (new GUILayout.HorizontalScope(EditorStyles.helpBox))
+            using (new EditorGUILayout.HorizontalScope(EditorStyles.helpBox))
             {
                 TickBox();
 
                 UpdateStatus();
-                GUILayout.Label("Status: " + _status);
+
+                DisplayStatus();
 
                 ResultButton();
 
                 DocumentationButton();
+            }
+        }
+
+        private void DisplayStatus()
+        {
+            GUI.skin.label.alignment = TextAnchor.MiddleLeft;
+            switch (_status)
+            {
+                case Status.Ok:
+                {
+                    GUILayout.Label(new GUIContent(_okTexture, "Status: Ok"), GUILayout.Width(Width),
+                        GUILayout.Height(Height));
+                    break;
+                }
+                case Status.Warning:
+                {
+                    GUILayout.Label(new GUIContent(_warningTexture, "Status: Warning"), GUILayout.Width(Width),
+                        GUILayout.Height(Height));
+                    break;
+                }
+                case Status.NotSelected:
+                {
+                    GUILayout.Label(new GUIContent(_notSelectedTexture, "Status: Not Selected"), GUILayout.Width(Width),
+                        GUILayout.Height(Height));
+                    break;
+                }
+                case Status.NotCalculated:
+                {
+                    GUILayout.Label(new GUIContent(_notCalculatedTexture, "Status: Not Calculated"),
+                        GUILayout.Width(Width), GUILayout.Height(Height));
+                    break;
+                }
+                case Status.Running:
+                {
+                    GUILayout.Label(new GUIContent(_runningTexture, "Status: Running"), GUILayout.Width(Width),
+                        GUILayout.Height(Height));
+                    break;
+                }
+                case Status.Error:
+                {
+                    GUILayout.Label(new GUIContent(_errorTexture, "Status: Error"), GUILayout.Width(Width),
+                        GUILayout.Height(Height));
+                    break;
+                }
+                case Status.NeedUpdate:
+                {
+                    GUILayout.Label(new GUIContent(_needUpdateTexture, "Status: Need Update"), GUILayout.Width(Width),
+                        GUILayout.Height(Height));
+                    break;
+                }
+                default:
+                    GUILayout.Label(new GUIContent(_unknownTexture, "Status: Unkown"), GUILayout.Width(Width),
+                        GUILayout.Height(Height));
+                    break;
             }
         }
 
@@ -147,6 +212,18 @@ namespace BestPracticeChecker.Editor.UI.BestPractices
         public void Fix()
         {
             _bestPractice.Fix();
+        }
+
+        private void InitialiseUiTextures()
+        {
+            _okTexture = Resources.Load("StatusOk") as Texture;
+            _warningTexture = Resources.Load("StatusWarning") as Texture;
+            _errorTexture = Resources.Load("StatusError") as Texture;
+            _needUpdateTexture = Resources.Load("StatusNeedUpdate") as Texture;
+            _runningTexture = Resources.Load("StatusRunning") as Texture;
+            _notSelectedTexture = Resources.Load("StatusNotSelected") as Texture;
+            _notCalculatedTexture = Resources.Load("StatusNotCalculated") as Texture;
+            _unknownTexture = Resources.Load("StatusUnknown") as Texture;
         }
     }
 }

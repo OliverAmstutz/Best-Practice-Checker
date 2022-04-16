@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
 {
     /// <summary>
-    /// Provides Asset operating methods.
+    ///     Provides Asset operating methods.
     ///     Supports the following syntax:
     ///     't:type' syntax (e.g 't:Texture2D' will show Texture2D objects)
     ///     'l:assetLabel' syntax (e.g 'l:architecture' will show assets with AssetLabel 'architecture')
@@ -19,26 +19,40 @@ namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
     public interface IAssetsProvider
     {
         /// <summary>
-        /// Returns a Collection of assets of type in given folder.
+        ///     Returns a Collection of assets of type in given folder.
         /// </summary>
         /// <param name="searchInFolders"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public IReadOnlyList<T> FindAllAssetsOfType<T>(string searchInFolders) where T : Object;
-        
+
         /// <summary>
-        /// Return boolean of the file exists within the assets folder.
+        ///     Returns a list of all assets in the given folder to search for.
+        /// </summary>
+        /// <param name="searchInFolder"></param>
+        /// <returns></returns>
+        public IReadOnlyList<Object> FindAllAssetsInFolder(string searchInFolder);
+
+        /// <summary>
+        ///     Return boolean of the file exists within the assets folder.
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
         public bool FindFileAssetFolder(string fileName);
-        
+
         /// <summary>
-        /// Return boolean of a specific folder exists within the path.
+        ///     Return boolean of a specific folder exists within the path.
         /// </summary>
         /// <param name="folderName"></param>
         /// <param name="path"></param>
         /// <returns></returns>
         public bool FindFolderFromStartPath(string folderName, string path);
+
+        /// <summary>
+        ///     Returns file ending of an asset. For example ".wav" for an audio clip
+        /// </summary>
+        /// <param name="asset"></param>
+        /// <returns></returns>
+        public string FileExtensionOfAsset(Object asset);
     }
 }

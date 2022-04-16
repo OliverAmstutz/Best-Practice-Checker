@@ -4,6 +4,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.PackageUtility
     {
         UpToDate,
         Outdated,
-        NotInstalled
+        NotInstalled,
+        NotInitialised
     }
 }

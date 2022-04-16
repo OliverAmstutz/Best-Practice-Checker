@@ -1,6 +1,6 @@
 using BestPracticeChecker.Editor.BusinessLogic.BestPractices;
 using BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl;
-using BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.SourceControl;
+using BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices;
 using BestPracticeChecker.Tests.Editor.BusinessLogic.Persistor;
 using BestPracticeChecker.Tests.Editor.BusinessLogic.WebAccess;
 using BestPracticeChecker.Tests.Editor.UI.BestPractices;
@@ -17,7 +17,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.SourceControl
                 BestPracticeFactory
                     .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl.SourceControl>(
                         BestPracticeName.Source_Control, new PersistorStub(), new WebAccessDummy(),
-                        new SourceControlBusinessLogicDummy(), new ResultEditorFactoryDummy());
+                        new BusinessLogicStub(), new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(sourceControl.Fix);
         }
 
@@ -28,7 +28,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.SourceControl
                 BestPracticeFactory
                     .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl.SourceControl>(
                         BestPracticeName.Source_Control, new PersistorStub(), new WebAccessDummy(),
-                        new SourceControlBusinessLogicDummy(), new ResultEditorFactoryDummy());
+                        new BusinessLogicStub(), new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(sourceControl.ShowResults);
         }
 
@@ -39,7 +39,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.SourceControl
                 BestPracticeFactory
                     .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl.SourceControl>(
                         BestPracticeName.Source_Control, new PersistorStub(), new WebAccessDummy(),
-                        new SourceControlBusinessLogicDummy(), new ResultEditorFactoryDummy());
+                        new BusinessLogicStub(), new ResultEditorFactoryDummy());
             Assert.IsFalse(sourceControl.HasFix());
         }
 
@@ -50,8 +50,8 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.SourceControl
                 BestPracticeFactory
                     .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl.SourceControl>(
                         BestPracticeName.Source_Control, new PersistorStub(), new WebAccessDummy(),
-                        new SourceControlBusinessLogicDummy(), new ResultEditorFactoryDummy());
-            SourceControlResultContent result = (SourceControlResultContent) sourceControl.GetResult();
+                        new BusinessLogicStub(), new ResultEditorFactoryDummy());
+            var result = (SourceControlResultContent) sourceControl.GetResult();
             Assert.That(result.Status() == SourceControlStatus.NotInitialised);
         }
 
@@ -62,7 +62,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.SourceControl
                 BestPracticeFactory
                     .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl.SourceControl>(
                         BestPracticeName.Source_Control, new PersistorStub(), new WebAccessDummy(),
-                        new SourceControlBusinessLogicDummy(), new ResultEditorFactoryDummy());
+                        new BusinessLogicStub(), new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(sourceControl.Run);
         }
     }

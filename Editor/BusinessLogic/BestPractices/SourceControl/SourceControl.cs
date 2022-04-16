@@ -12,17 +12,13 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl
         private const string ObjectKey = "SourceControlResultContent";
         private const string ResultVarKey = "_result";
         private const string CanBeFixedVarKey = "_canBeFixed";
-        private ISourceControlBusinessLogic _businessLogic;
         private bool _canBeFixed;
         private SourceControlResultContent _result;
 
         public override void Init()
         {
             base.Init();
-            if (BusinessLogic == null)
-                _businessLogic = new SourceControlBusinessLogic();
-            else
-                _businessLogic = (ISourceControlBusinessLogic) BusinessLogic;
+            BusinessLogic ??= new SourceControlBusinessLogic();
             Events.registeredPackages += IsDirtyUpdate;
         }
 
@@ -33,10 +29,10 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl
 
         protected override IEnumerator Evaluation()
         {
-            _businessLogic.Evaluation();
-            _canBeFixed = _businessLogic.CanBeFixed();
-            _result = _businessLogic.Result();
-            status = _businessLogic.GetStatus();
+            BusinessLogic.Evaluation();
+            _canBeFixed = BusinessLogic.CanBeFixed();
+            _result = (SourceControlResultContent) BusinessLogic.Result();
+            status = BusinessLogic.GetStatus();
             yield return null;
 
             UpdateUserInterfaceAfterEvaluation();
@@ -44,7 +40,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl
 
         public override void Fix()
         {
-            _businessLogic.Fix();
+            BusinessLogic.Fix();
         }
 
         protected override void CleanUp()

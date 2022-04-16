@@ -67,14 +67,18 @@ namespace BestPracticeChecker.Editor.UI.BestPractices.TextureRatio
             using (new GUILayout.VerticalScope(EditorStyles.helpBox))
             {
                 foreach (var ft in faultyTextures)
+                {
+                    var texture = AssetDatabase.LoadAssetAtPath<Texture>(ft.TexturePath());
+                    if (texture == null) continue;
                     using (new GUILayout.HorizontalScope(EditorStyles.helpBox))
                     {
-                        if (ft.Texture() != null && GUILayout.Button("View " + ft.Texture().name))
-                            Highlighter.HighlightObject(ft.Texture());
+                        if (GUILayout.Button("View " + texture.name))
+                            Highlighter.HighlightObject(texture);
 
-                        GUILayout.Label("texture dim.: " + ft.Texture().width + " x " + ft.Texture().height);
+                        GUILayout.Label("texture dim.: " + texture.width + " x " + texture.height);
                         GUILayout.Label(ft.IsUnCompressed() ? "Compression disabled" : "Compression enabled");
                     }
+                }
             }
         }
     }
