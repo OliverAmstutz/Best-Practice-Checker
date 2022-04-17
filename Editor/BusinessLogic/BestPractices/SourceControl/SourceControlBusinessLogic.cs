@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using BestPracticeChecker.Editor.BusinessLogic.AssetsProvider;
 using BestPracticeChecker.Editor.BusinessLogic.PackageUtility;
 using UnityEditor;
@@ -9,7 +10,6 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl
     {
         private const string UnityVersionControlPackage = "com.unity.collab-proxy";
         private const string GitFolderName = ".git";
-        private const string AssetsPath = "Assets";
         private readonly IAssetsProvider _assetsProvider;
         private readonly IPackageUtility _pu;
         private readonly IVersionControlStatus _versionControlStatus;
@@ -33,7 +33,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl
         public void Evaluation()
         {
             var gitFolderExists =
-                _assetsProvider.FindFolderFromStartPath(GitFolderName, AssetsPath);
+                _assetsProvider.FindFolderFromStartPath(GitFolderName, Directory.GetCurrentDirectory());
             var versionControlSetting = _versionControlStatus.Evaluate(VersionControlSettings.mode);
             _canBeFixed = false;
             _result = new SourceControlResultContent();
