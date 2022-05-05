@@ -53,7 +53,7 @@ String.Equals(a, b, StringComparison.Ordinal);
 ## Related rules
 
 
-[BP0007: Inefficient String Methods](https://github.com/emanuelbuholzer/unity-best-practices/blob/master/docs/reference/BP0007_InefficientStringMethods.md)
+[BP0007: Inefficient String Methods](https://github.com/OliverAmstutz/Best-Practice-Checker/tree/main/Docs/References/BP0007_InefficientStringMethods.md)
 
 ## References
 <a id="1">[1]</a>

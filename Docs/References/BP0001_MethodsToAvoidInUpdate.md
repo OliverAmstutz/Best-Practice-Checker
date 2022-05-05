@@ -4,15 +4,15 @@
 
 One of the following methods was called in the `Update` method:
 - `GetComponent`
-- GetComponents
-- FindObjectOfType
+- `GetComponents`
+- `FindObjectOfType`
 
 ## Rule description
 
 Since calls to the `GetComponent`, `GetComponents`,
 `FindObjectsOfType` and `FindObjectOfType` methods are very computationally intensive,
 accessing other GameObjects should never be done via these methods in the `Update` method.
-This is because the referencing is called again with every frame, which uses up resources unnecessarily.
+This is because the referencing is called again with every frame, which uses up resources unnecessarily.[[1]](#1)
 
 ## How to fix violations
 
@@ -75,7 +75,7 @@ class Something : MonoBehaviour
 
 ## Related rules
 
-[BP0023: Main Camera In Update][1]
+[BP0023: Main Camera In Update](https://github.com/OliverAmstutz/Best-Practice-Checker/blob/main/Docs/References/BP0023_MainCameraInUpdate.md) 
 
 ## References
 <a id="1">[1]</a>

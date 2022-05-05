@@ -72,7 +72,7 @@ class Something : MonoBehaviour
 
 ## Related rules
 
-[BP0001: Methods to Avoid in Update](https://github.com/emanuelbuholer/unity-best-practices/blob/master/docs/reference/BP0001_MethodsToAvoidInUpdate.md)
+[BP0001: Methods to Avoid in Update](https://github.com/OliverAmstutz/Best-Practice-Checker/tree/main/Docs/References/BP0001_MethodsToAvoidInUpdate.md)
 
 ## References
 <a id="1">[1]</a>

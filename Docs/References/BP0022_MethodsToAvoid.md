@@ -64,7 +64,7 @@ should be avoided.
 
 ## Related rules
 
-[BP0001: Methods to avoid in Update](https://github.com/emanuelbuholzer/unity-best-practices/blob/master/docs/reference/BP0001_MethodsToAvoidInUpdate.md)
+[BP0001: Methods to avoid in Update](https://github.com/OliverAmstutz/Best-Practice-Checker/tree/main/Docs/References/BP0001_MethodsToAvoidInUpdate.md)
 
 ## References
 

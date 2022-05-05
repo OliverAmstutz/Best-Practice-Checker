@@ -54,8 +54,8 @@ Use method calls directly
 
 ## Related rules
 
-[BP0001: Methods to avoid in Update](https://github.com/emanuelbuholzer/unity-best-practices/blob/master/docs/reference/BP0001_MethodsToAvoidInUpdate.md) <br/>
-[BP0022: Methods to avoid generaly](https://github.com/emanuelbuholzer/unity-best-practices/blob/master/docs/reference/BP0022_MethodsToAvoid.md)
+[BP0001: Methods to avoid in Update](https://github.com/OliverAmstutz/Best-Practice-Checker/tree/main/Docs/References/BP0001_MethodsToAvoidInUpdate.md) <br/>
+[BP0022: Methods to avoid generaly](https://github.com/OliverAmstutz/Best-Practice-Checker/tree/main/Docs/References/BP0022_MethodsToAvoid.md)
 
 ## References
 
