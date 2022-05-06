@@ -17,7 +17,7 @@ Despite its intention, `JsonUtility.FromJson<>()` is used instead of `EditorJson
 
 ## Consequences
 
-Usage of Unity class againts its design. Might bite its tail at some point.
+Usage of Unity class against its design. Might bite its tail at some point.
 
 #### Example
 

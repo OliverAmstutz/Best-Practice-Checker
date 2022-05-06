@@ -3,7 +3,7 @@ Date: 2022-03-17
 
 ## Status
 
-Open
+Accepted
 
 ## Context
 
@@ -25,7 +25,7 @@ Difficulty when writing in file:
 ## Decision
 
 KISS principle applied - the implementation effort is lower using the EditorPrefs.
-In addition, concurrency is handled naturally by editor prefs.
+In addition, concurrency is handled naturally by editor prefs. JSON is used to persist more complex objects.
 
 ## Consequences
 
@@ -33,3 +33,4 @@ Quite a lot of Registry entries in:
 - Windows: `HKCU\Software\Unity Technologies\UnityEditor 5.x`
 - MacOS: `~/Library/Preferences/com.unity3d.UnityEditor5.x.plist`
 
+Unity persists object with InstanceID (see 007 doc.)

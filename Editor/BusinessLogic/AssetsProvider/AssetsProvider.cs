@@ -29,13 +29,18 @@ namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
             assetsList.AddRange(from asset in assets
                 let subStrings = asset.Split('.')
                 let fileExtension = subStrings[subStrings.Length - 1]
-                where !fileExtension.Equals("meta") || !fileExtension.Equals("md")
+                where IsNotWhiteListed(fileExtension)
                 select AssetDatabase.LoadAssetAtPath<Object>(asset)
                 into obj
                 where obj != null
                 select obj);
 
             return assetsList.AsReadOnly();
+        }
+
+        private static bool IsNotWhiteListed(string fileExtension)
+        {
+            return !fileExtension.Equals("meta") || !fileExtension.Equals("md") || !fileExtension.Equals("txt");
         }
 
         public string FileExtensionOfAsset(Object asset)
@@ -80,6 +85,13 @@ namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
             }
 
             return false;
+        }
+
+        public Object FindAsset(string fileName, string fileExtension)
+        {
+            var allAssets = FindAllAssetsOfType<Object>("Assets");
+            return allAssets.Where(a => FileExtensionOfAsset(a).Contains(fileExtension))
+                .FirstOrDefault(a => a.name.Equals(fileName));
         }
     }
 }

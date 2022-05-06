@@ -16,8 +16,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework
         public override void Init()
         {
             base.Init();
-            if (BusinessLogic == null)
-                BusinessLogic = new TestFrameworkBusinessLogic();
+            BusinessLogic ??= new TestFrameworkBusinessLogic();
             Events.registeredPackages += IsDirtyUpdate;
         }
 

@@ -87,7 +87,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat
                     break;
                 case SupportedAudioFormat.Xm:
                     break;
-                case SupportedAudioFormat.UnkownAudioFormat:
+                case SupportedAudioFormat.UnknownAudioFormat:
                 {
                     _status = Status.Error;
                     _result.AddNotIdealAudioClip(AssetDatabase.GetAssetPath(audio));

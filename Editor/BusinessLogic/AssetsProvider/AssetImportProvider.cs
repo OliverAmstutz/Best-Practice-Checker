@@ -17,5 +17,10 @@ namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
                 return null;
             }
         }
+
+        public static PluginImporter ImporterForPlugin(DefaultAsset plugin)
+        {
+            return (PluginImporter) AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(plugin));
+        }
     }
 }

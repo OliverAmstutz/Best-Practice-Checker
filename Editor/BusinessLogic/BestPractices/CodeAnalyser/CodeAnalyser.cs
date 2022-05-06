@@ -1,53 +1,59 @@
+using System;
 using System.Collections;
-using BestPracticeChecker.Editor.UI.BestPractices.TextureRatio;
-using Unity.EditorCoroutines.Editor;
+using BestPracticeChecker.Editor.UI.BestPractices.CodeAnalyser;
 using UnityEngine;
 
-namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
+namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.CodeAnalyser
 {
-    public sealed class TextureRatio : BestPractice
+    [Serializable]
+    public sealed class CodeAnalyser : BestPractice
     {
-        private const string ObjectKey = "TextureRatioContent";
+        private const string ObjectKey = "CodeAnalyserResultContent";
         private const string ResultVarKey = "_result";
         private const string CanBeFixedVarKey = "_canBeFixed";
         private bool _canBeFixed;
-        private TextureRatioResultContent _result;
+        private CodeAnalyserResultContent _result;
 
         public override void Init()
         {
             base.Init();
-            BusinessLogic ??= new TextureRatioBusinessLogic();
-            TextureUpdateDetector.ImportTexture += IsDirty;
+            BusinessLogic ??= new CodeAnalyserBusinessLogic();
+            CodeAnalyserDetector.ChangePlugin += IsDirty;
         }
 
         protected override IEnumerator Evaluation()
         {
             BusinessLogic.Evaluation();
-            _result = (TextureRatioResultContent) BusinessLogic.Result();
-            status = BusinessLogic.GetStatus();
             _canBeFixed = BusinessLogic.CanBeFixed();
+            _result = (CodeAnalyserResultContent) BusinessLogic.Result();
+            status = BusinessLogic.GetStatus();
             yield return null;
+
             UpdateUserInterfaceAfterEvaluation();
         }
 
         public override void Fix()
         {
             BusinessLogic.Fix();
+        }
 
-            EditorCoroutineUtility.StartCoroutineOwnerless(Evaluation());
+        protected override void CleanUp()
+        {
+            base.CleanUp();
+            CodeAnalyserDetector.ChangePlugin -= IsDirty;
         }
 
         public override void ShowResults()
         {
-            ResultEditorFactory.InitialiseResultWindow<TextureRatioResult>(this);
+            ResultEditorFactory.InitialiseResultWindow<CodeAnalyserResult>(this);
         }
 
         protected override void LoadPersistedData()
         {
             _canBeFixed = Persistor.Load(CLASS_KEY + ObjectKey + CanBeFixedVarKey, false);
             status = (Status) Persistor.Load(CLASS_KEY + ObjectKey + STATUS_VAR_KEY, 0);
-            _result = JsonUtility.FromJson<TextureRatioResultContent>(Persistor.Load(
-                CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(new TextureRatioResultContent())));
+            _result = JsonUtility.FromJson<CodeAnalyserResultContent>(Persistor.Load(
+                CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(new CodeAnalyserResultContent())));
         }
 
         protected override void PersistData()
@@ -65,13 +71,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
 
         public override IResult GetResult()
         {
-            return _result ??= new TextureRatioResultContent();
-        }
-
-        protected override void CleanUp()
-        {
-            base.CleanUp();
-            TextureUpdateDetector.ImportTexture -= IsDirty;
+            return _result ??= new CodeAnalyserResultContent();
         }
     }
 }

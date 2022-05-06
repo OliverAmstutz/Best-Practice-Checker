@@ -49,10 +49,19 @@ namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
         public bool FindFolderFromStartPath(string folderName, string path);
 
         /// <summary>
-        ///     Returns file ending of an asset. For example ".wav" for an audio clip
+        ///     Returns file ending of an asset. For example ".wav" for an audio clip.
         /// </summary>
         /// <param name="asset"></param>
         /// <returns></returns>
         public string FileExtensionOfAsset(Object asset);
+
+
+        /// <summary>
+        ///     Returns optional of first found asset of given type, name and file extension.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="fileExtension"></param>
+        /// <returns></returns>
+        public Object FindAsset(string fileName, string fileExtension);
     }
 }

@@ -15,7 +15,7 @@
                 ".wav" => SupportedAudioFormat.Wav,
                 ".xm" => SupportedAudioFormat.Xm,
                 ".s3m" => SupportedAudioFormat.S3M,
-                _ => SupportedAudioFormat.UnkownAudioFormat
+                _ => SupportedAudioFormat.UnknownAudioFormat
             };
         }
     }

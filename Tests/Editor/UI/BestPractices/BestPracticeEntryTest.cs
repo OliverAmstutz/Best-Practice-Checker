@@ -29,16 +29,6 @@ namespace BestPracticeChecker.Tests.Editor.UI.BestPractices
             Assert.False(bpe.IsActive());
         }
 
-        /*[Test]
-        [Ignore("NullPointerException in EditorCoroutine - potential bug in package?")]
-        public void TestRunBestPractice()
-        {
-            var bpe = BestPracticeEntryFactory.Create<BestPracticeDummy>(
-                BestPracticeName.Test_Framework, new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
-                new ResultEditorFactoryDummy());
-            Assert.DoesNotThrow(bpe.RunBestPractice);
-        }*/
-
         [Test]
         public void TestHasResultDefaultValues()
         {

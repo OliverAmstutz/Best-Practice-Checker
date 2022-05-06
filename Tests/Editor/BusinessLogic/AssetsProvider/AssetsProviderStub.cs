@@ -11,14 +11,16 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
         private readonly string _fileExtension;
         private readonly bool _findAssetFolder;
         private readonly bool _findFolderFromStart;
+        private readonly Object _foundAsset;
 
         public AssetsProviderStub(List<Object> allAssets, bool findAssetFolder, bool findFolderFromStart,
-            string fileExtension)
+            string fileExtension, Object foundAsset)
         {
             _allAssets = allAssets;
             _findAssetFolder = findAssetFolder;
             _findFolderFromStart = findFolderFromStart;
             _fileExtension = fileExtension;
+            _foundAsset = foundAsset;
         }
 
         public IReadOnlyList<T> FindAllAssetsOfType<T>(string searchInFolders) where T : Object
@@ -40,6 +42,11 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
         public string FileExtensionOfAsset(Object asset)
         {
             return _fileExtension;
+        }
+
+        public Object FindAsset(string fileName, string fileExtension)
+        {
+            return _foundAsset;
         }
 
         public IReadOnlyList<Object> FindAllAssetsInFolder(string searchInFolder)

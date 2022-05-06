@@ -11,6 +11,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices
         Source_Control,
         Audio_Format,
         Code_Coverage,
-        No_Assets_In_Root
+        No_Assets_In_Root,
+        Code_Analyser
     }
 }

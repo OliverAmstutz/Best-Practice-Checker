@@ -1,5 +1,6 @@
 using BestPracticeChecker.Editor.BusinessLogic.AssetsProvider;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
@@ -15,6 +16,21 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
             Assert.NotNull(AssetImportProvider.ImporterForTexture(textures[9]));
             Assert.NotNull(AssetImportProvider.ImporterForTexture(textures[10]));
             Assert.Null(AssetImportProvider.ImporterForTexture(textures[11]));
+        }
+
+        [Test]
+        public void TestImporterForPlugin()
+        {
+            var plugin = (DefaultAsset) new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider()
+                .FindAsset(
+                    "BestPracticeChecker", "dll");
+            Assert.NotNull(AssetImportProvider.ImporterForPlugin(plugin));
+        }
+
+        [Test]
+        public void TestImporterForNullPlugin()
+        {
+            Assert.Null(AssetImportProvider.ImporterForPlugin(null));
         }
     }
 }

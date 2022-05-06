@@ -10,6 +10,6 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat
         It,
         S3M,
         Xm,
-        UnkownAudioFormat
+        UnknownAudioFormat
     }
 }

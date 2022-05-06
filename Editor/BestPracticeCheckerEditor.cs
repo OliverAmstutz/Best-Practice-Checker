@@ -10,7 +10,7 @@ namespace BestPracticeChecker.Editor
         public delegate void ExecuteBeforeShutdown();
 
         private const string ToolName = "Best Practice Checker";
-        private static readonly Vector2 MaxUndockedToolWindowSize = new Vector2(400, 200);
+        private static readonly Vector2 MaxUndockedToolWindowSize = new Vector2(400, 230);
         private CompoundControls _cc;
 
         private void OnEnable()

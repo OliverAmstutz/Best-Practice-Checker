@@ -1,5 +1,6 @@
 using System.IO;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
@@ -139,6 +140,15 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
             {
                 Assert.NotNull(e);
             }
+        }
+
+        [Test]
+        public void TestFindAsset()
+        {
+            var assetProvider = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider();
+            var obj = assetProvider.FindAsset("BestPracticeChecker", "dll");
+            Assert.NotNull(obj);
+            Assert.That(obj is DefaultAsset);
         }
 
         private sealed class TestFindAssetTest : Object
