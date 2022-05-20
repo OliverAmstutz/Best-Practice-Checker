@@ -2,7 +2,7 @@
 
 namespace BestPracticeChecker.Editor.BusinessLogic.PreferenceUtility
 {
-    public class Preferences : IPreferences
+    public sealed class Preferences : IPreferences
     {        
         private const string Rider = "Packages.Rider.Editor.RiderScriptEditor";
         private const string VisualStudio = "Microsoft.Unity.VisualStudio.Editor.VisualStudioEditor";

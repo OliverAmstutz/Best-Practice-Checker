@@ -15,12 +15,12 @@ namespace BestPracticeChecker.Editor.UI
     {
         private const string ClassKey = "BEST_PRACTICE_CHECKER_CompoundControls_";
         private const string DeselectAllText = "De-Select All";
-        private const string FixAllText = "Fix All                ";
-        private const string ObjectKey = "CompoundControls";
+        private const string FixSelectedText = "Fix selected     ";
         private const string RunSelectedText = "Run selected";
-        private const string ScrollVarKey = "_scrollPosition";
-        private const string SelectAllText = "Select All   ";
         private const string StopText = "Stop              ";
+        private const string SelectAllText = "Select All   ";
+        private const string ObjectKey = "CompoundControls";
+        private const string ScrollVarKey = "_scrollPosition";
 
         private readonly List<BestPracticeEntry> _listOfBestPractices = new List<BestPracticeEntry>();
         private IPersistor _persistor = new Persistor();
@@ -29,8 +29,7 @@ namespace BestPracticeChecker.Editor.UI
 
         public void Init()
         {
-            _scrollPosition = JsonUtility.FromJson<Vector2>(_persistor.Load(ClassKey + ObjectKey + ScrollVarKey,
-                JsonUtility.ToJson(new Vector2(0.0f, 0.0f))));
+            _scrollPosition = JsonUtility.FromJson<Vector2>(_persistor.Load(ClassKey + ObjectKey + ScrollVarKey, JsonUtility.ToJson(new Vector2(0.0f, 0.0f))));
             BestPracticeCheckerEditor.BeforeShutdown += PersistState;
             _listOfBestPractices.AddRange(BestPracticeEntryFactory.CreateAll());
         }
@@ -61,42 +60,77 @@ namespace BestPracticeChecker.Editor.UI
             {
                 using (new GUILayout.HorizontalScope())
                 {
-                    if (IsRunning())
-                        using (new EditorGUI.DisabledScope(!IsRunning()))
-                        {
-                            if (GUILayout.Button(StopText)) StopRunning();
-                        }
-                    else
-                        using (new EditorGUI.DisabledScope(HasNoActiveBestPractices() || IsRunning()))
-                        {
-                            if (GUILayout.Button(RunSelectedText)) RunSelected();
-                        }
-
-                    using (new EditorGUI.DisabledScope(HasNoInactiveBestPractices() || IsRunning()))
-                    {
-                        if (GUILayout.Button(SelectAllText, GUILayout.ExpandWidth(true))) SelectAll();
-                    }
+                    LeftSideButtons();
                 }
 
                 using (new GUILayout.HorizontalScope())
                 {
-                    using (new EditorGUI.DisabledScope(!HasFixWithinAllBestPractices()))
-                    {
-                        if (GUILayout.Button(FixAllText)) FixAll();
-                    }
-
-                    using (new EditorGUI.DisabledScope(HasNoActiveBestPractices() || IsRunning()))
-                    {
-                        if (GUILayout.Button(DeselectAllText)) DeSelectAll();
-                    }
+                    RightSideButtons();
                 }
             }
         }
 
-        private void FixAll()
+        private void RightSideButtons()
         {
-            foreach (var bpe in _listOfBestPractices.Where(HasFix))
-                bpe.Fix();
+            using (new EditorGUI.DisabledScope(!HasFixWithinAllBestPractices()))
+            {
+                FixSelectedButton();
+            }
+
+            using (new EditorGUI.DisabledScope(HasNoActiveBestPractices() || IsRunning()))
+            {
+                DeSelectButton();
+            }
+        }
+
+        private void LeftSideButtons()
+        {
+            if (IsRunning())
+                using (new EditorGUI.DisabledScope(!IsRunning()))
+                {
+                    StopButton();
+                }
+            else
+                using (new EditorGUI.DisabledScope(HasNoActiveBestPractices() || IsRunning()))
+                {
+                    RunButton();
+                }
+
+            using (new EditorGUI.DisabledScope(HasNoInactiveBestPractices() || IsRunning()))
+            {
+                SelectAllButton();
+            }
+        }
+
+        private void DeSelectButton()
+        {
+            if (GUILayout.Button(new GUIContent(DeselectAllText, "De-selects all best practices"))) DeSelectAll();
+        }
+
+        private void FixSelectedButton()
+        {
+            if (GUILayout.Button(new GUIContent(FixSelectedText,
+                    "Tries to fix all selected best practices. Individual best practice fix option is in the result window available"))) FixSelected();
+        }
+
+        private void SelectAllButton()
+        {
+            if (GUILayout.Button(new GUIContent(SelectAllText, "Selects all best practices"), GUILayout.ExpandWidth(true))) SelectAll();
+        }
+
+        private void RunButton()
+        {
+            if (GUILayout.Button(new GUIContent(RunSelectedText, "Run's all selected best practices"))) RunSelected();
+        }
+
+        private void StopButton()
+        {
+            if (GUILayout.Button(new GUIContent(StopText, "Stops all current calculations"))) StopRunning();
+        }
+
+        private void FixSelected()
+        {
+            foreach (var bpe in _listOfBestPractices.Where(HasFix)) bpe.Fix();
         }
 
         private bool HasFixWithinAllBestPractices()
@@ -111,8 +145,7 @@ namespace BestPracticeChecker.Editor.UI
 
         private void StopRunning()
         {
-            foreach (var bpe in _listOfBestPractices.Where(bpe => bpe.IsRunning()))
-                bpe.Stop();
+            foreach (var bpe in _listOfBestPractices.Where(bpe => bpe.IsRunning())) bpe.Stop();
         }
 
         private void RunSelected()
@@ -122,8 +155,7 @@ namespace BestPracticeChecker.Editor.UI
 
         private void SelectAll()
         {
-            foreach (var bestPracticeEntry in _listOfBestPractices.Where(bestPracticeEntry =>
-                         !bestPracticeEntry.IsActive()))
+            foreach (var bestPracticeEntry in _listOfBestPractices.Where(bestPracticeEntry => !bestPracticeEntry.IsActive()))
             {
                 Undo.RecordObject(bestPracticeEntry, SelectAllText);
                 bestPracticeEntry.SwitchActive();
@@ -132,8 +164,7 @@ namespace BestPracticeChecker.Editor.UI
 
         private void DeSelectAll()
         {
-            foreach (var bestPracticeEntry in _listOfBestPractices.Where(bestPracticeEntry =>
-                         bestPracticeEntry.IsActive()))
+            foreach (var bestPracticeEntry in _listOfBestPractices.Where(bestPracticeEntry => bestPracticeEntry.IsActive()))
             {
                 Undo.RecordObject(bestPracticeEntry, DeselectAllText);
                 bestPracticeEntry.SwitchActive();

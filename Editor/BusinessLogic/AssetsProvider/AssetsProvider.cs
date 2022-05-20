@@ -7,27 +7,33 @@ using Object = UnityEngine.Object;
 
 namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
 {
-    public class AssetsProvider : IAssetsProvider
+    public sealed class AssetsProvider : IAssetsProvider
     {
+        private const string MetaFileExtension = "meta";
+        private const string MarkDownFileExtension = "md";
+        private const string TextFileExtension = "txt";
+        private const string TypePrefix = "t:";
+        private const string SearchPattern = "*.*";
+        private const char ParameterSeparator = '.';
+
         public IReadOnlyList<T> FindAllAssetsOfType<T>(string searchInFolders) where T : Object
         {
-            var typeName = "t:" + typeof(T).Name;
+            var typeName = TypePrefix + typeof(T).Name;
             var assets = AssetDatabase.FindAssets(typeName, new[] {searchInFolders});
             var assetsList = new List<T>();
             if (assets.Length <= 0) return assetsList;
-            assetsList.AddRange(assets.Select(asset =>
-                AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(asset))));
+            assetsList.AddRange(assets.Select(asset => AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(asset))));
             return assetsList.AsReadOnly();
         }
 
         public IReadOnlyList<Object> FindAllAssetsInFolder(string searchInFolder)
         {
-            var assets = Directory.GetFiles(searchInFolder, "*.*", SearchOption.TopDirectoryOnly);
+            var assets = Directory.GetFiles(searchInFolder, SearchPattern, SearchOption.TopDirectoryOnly);
             var assetsList = new List<Object>();
             if (assets.Length <= 0) return assetsList;
 
             assetsList.AddRange(from asset in assets
-                let subStrings = asset.Split('.')
+                let subStrings = asset.Split(ParameterSeparator)
                 let fileExtension = subStrings[subStrings.Length - 1]
                 where IsNotWhiteListed(fileExtension)
                 select AssetDatabase.LoadAssetAtPath<Object>(asset)
@@ -38,21 +44,9 @@ namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
             return assetsList.AsReadOnly();
         }
 
-        private static bool IsNotWhiteListed(string fileExtension)
-        {
-            return !fileExtension.Equals("meta") || !fileExtension.Equals("md") || !fileExtension.Equals("txt");
-        }
-
         public string FileExtensionOfAsset(Object asset)
         {
             return Path.GetExtension(AssetDatabase.GetAssetPath(asset));
-        }
-
-        public bool FindFileAssetFolder(string fileName)
-        {
-            var info = new DirectoryInfo("./Assets");
-            var fileInfo = info.GetFiles();
-            return fileInfo.Any(file => file.Name.Equals(fileName));
         }
 
         public bool FindFolderFromStartPath(string folderName, string path)
@@ -87,11 +81,15 @@ namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
             return false;
         }
 
-        public Object FindAsset(string fileName, string fileExtension)
+        public Object FindAssetOfNameAndFileExtension(string fileName, string fileExtension)
         {
             var allAssets = FindAllAssetsOfType<Object>("Assets");
-            return allAssets.Where(a => FileExtensionOfAsset(a).Contains(fileExtension))
-                .FirstOrDefault(a => a.name.Equals(fileName));
+            return allAssets.Where(a => FileExtensionOfAsset(a).Contains(fileExtension)).FirstOrDefault(a => a.name.Equals(fileName));
+        }
+
+        private bool IsNotWhiteListed(string fileExtension)
+        {
+            return !fileExtension.Equals(MetaFileExtension) || !fileExtension.Equals(MarkDownFileExtension) || !fileExtension.Equals(TextFileExtension);
         }
     }
 }

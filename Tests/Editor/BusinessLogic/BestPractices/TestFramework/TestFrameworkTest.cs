@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TestFramework
 {
-    public class TestFrameworkTest
+    public sealed class TestFrameworkTest
     {
         [Test]
         public void TestHasFix()
@@ -14,9 +14,8 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TestFrame
             const BestPracticeName name = BestPracticeName.Test_Framework;
             var bP =
                 (BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework.TestFramework) BestPracticeFactory
-                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework.TestFramework>(name,
-                        new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
-                        new ResultEditorFactoryDummy());
+                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework.TestFramework>(name, new PersistorStub(), new WebAccessDummy(),
+                        new BusinessLogicStub(), new ResultEditorFactoryDummy());
             Assert.False(bP.HasFix());
         }
 
@@ -26,9 +25,8 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TestFrame
             const BestPracticeName name = BestPracticeName.Test_Framework;
             var bP =
                 (BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework.TestFramework) BestPracticeFactory
-                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework.TestFramework>(name,
-                        new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
-                        new ResultEditorFactoryDummy());
+                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework.TestFramework>(name, new PersistorStub(), new WebAccessDummy(),
+                        new BusinessLogicStub(), new ResultEditorFactoryDummy());
             Assert.NotNull(bP.GetResult());
         }
 
@@ -38,9 +36,8 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TestFrame
             const BestPracticeName name = BestPracticeName.Test_Framework;
             var bP =
                 (BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework.TestFramework) BestPracticeFactory
-                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework.TestFramework>(name,
-                        new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
-                        new ResultEditorFactoryDummy());
+                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework.TestFramework>(name, new PersistorStub(), new WebAccessDummy(),
+                        new BusinessLogicStub(), new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bP.Fix);
         }
 
@@ -50,9 +47,8 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TestFrame
             const BestPracticeName name = BestPracticeName.Test_Framework;
             var bP =
                 (BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework.TestFramework) BestPracticeFactory
-                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework.TestFramework>(name,
-                        new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
-                        new ResultEditorFactoryDummy());
+                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework.TestFramework>(name, new PersistorStub(), new WebAccessDummy(),
+                        new BusinessLogicStub(), new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bP.Run);
         }
 
@@ -63,9 +59,8 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TestFrame
             const BestPracticeName name = BestPracticeName.Test_Framework;
             var bP =
                 (BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework.TestFramework) BestPracticeFactory
-                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework.TestFramework>(name,
-                        new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
-                        new ResultEditorFactoryDummy());
+                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework.TestFramework>(name, new PersistorStub(), new WebAccessDummy(),
+                        new BusinessLogicStub(), new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bP.ShowResults);
         }
     }

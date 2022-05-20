@@ -1,6 +1,7 @@
 # 1. Result window
 
 Date: 2022-03-17
+Updated: 2022-05-17
 
 ## Status
 
@@ -18,7 +19,11 @@ In order to display the versatile best practice results, a new editor window is 
 
 ## Decision
 
-Selecting Auxiliary editor window. The user has only use for one result at a time, and the re-use of existing windows declutter the Unity editor window. The other features are either not particularly useful or even harmful for the intended use.
+~~Selecting Auxiliary editor window. The user has only use for one result at a time, and the re-use of existing windows declutter the Unity editor window. 
+The other features are either not particularly useful or even harmful for the intended use.~~
+
+User feedback requested persistent editor windows. To prevent the user from cluttering the UI, the utility flag is turned on - this prevents dockable editor windows.
+As another measurement, all result windows are closed when the tool is closed.
 
 ## Consequences
 

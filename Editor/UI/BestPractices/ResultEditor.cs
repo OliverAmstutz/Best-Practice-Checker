@@ -11,7 +11,6 @@ namespace BestPracticeChecker.Editor.UI.BestPractices
         private Vector2 _scrollPosition;
         protected bool HasFix;
 
-
         private void OnDisable()
         {
             CleanUp();
@@ -31,12 +30,10 @@ namespace BestPracticeChecker.Editor.UI.BestPractices
                     {
                         using (new EditorGUI.DisabledScope(!HasFix))
                         {
-                            if (GUILayout.Button(FixButtonText))
-                                Fix();
+                            FixButton();
                         }
 
-                        if (GUILayout.Button(CloseButtonText))
-                            Close();
+                        CloseButton();
                     }
 
                     DisplayResult();
@@ -44,6 +41,16 @@ namespace BestPracticeChecker.Editor.UI.BestPractices
             }
 
             EditorGUILayout.EndScrollView();
+        }
+
+        private void CloseButton()
+        {
+            if (GUILayout.Button(new GUIContent(CloseButtonText, "Closes this result editor window"))) Close();
+        }
+
+        private void FixButton()
+        {
+            if (GUILayout.Button(new GUIContent(FixButtonText, "Fixes this best practice"))) Fix();
         }
 
         public virtual void Init()

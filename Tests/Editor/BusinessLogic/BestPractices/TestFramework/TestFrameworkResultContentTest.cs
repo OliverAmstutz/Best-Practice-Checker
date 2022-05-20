@@ -19,8 +19,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TestFrame
         {
             var content = new TestFrameworkResultContent();
             content.Status(PackageStatus.Outdated);
-            Assert.That(content.Content()
-                .Contains("You have the Unity test framework installed, but its not up to date!"));
+            Assert.That(content.Content().Contains("You have the Unity test framework installed, but its not up to date!"));
         }
 
         [Test]

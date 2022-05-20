@@ -9,19 +9,16 @@ using NUnit.Framework;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.NoAssetsInRoot
 {
-    public class NoAssetsInRootTest
+    public sealed class NoAssetsInRootTest
     {
         [Test]
         public void TestHasFix()
         {
             const BestPracticeName name = BestPracticeName.No_Assets_In_Root;
             var bP =
-                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot)
-                BestPracticeFactory
-                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot>(name,
-                        new PersistorStub(), new WebAccessDummy(),
-                        new BusinessLogicStub(true, new NoAssetsInRootResultContent(), Status.NotCalculated),
-                        new ResultEditorFactoryDummy());
+                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot) BestPracticeFactory
+                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot>(name, new PersistorStub(), new WebAccessDummy(),
+                        new BusinessLogicStub(true, new NoAssetsInRootResultContent(), Status.NotCalculated), new ResultEditorFactoryDummy());
             Assert.IsFalse(bP.HasFix());
         }
 
@@ -30,12 +27,9 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.NoAssetsI
         {
             const BestPracticeName name = BestPracticeName.No_Assets_In_Root;
             var bP =
-                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot)
-                BestPracticeFactory
-                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot>(name,
-                        new PersistorStub(), new WebAccessDummy(),
-                        new BusinessLogicStub(false, new NoAssetsInRootResultContent(), Status.NotCalculated),
-                        new ResultEditorFactoryDummy());
+                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot) BestPracticeFactory
+                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot>(name, new PersistorStub(), new WebAccessDummy(),
+                        new BusinessLogicStub(false, new NoAssetsInRootResultContent(), Status.NotCalculated), new ResultEditorFactoryDummy());
             Assert.NotNull(bP.GetResult());
         }
 
@@ -44,12 +38,9 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.NoAssetsI
         {
             const BestPracticeName name = BestPracticeName.No_Assets_In_Root;
             var bP =
-                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot)
-                BestPracticeFactory
-                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot>(name,
-                        new PersistorStub(), new WebAccessDummy(),
-                        new BusinessLogicStub(false, new NoAssetsInRootResultContent(), Status.NotCalculated),
-                        new ResultEditorFactoryDummy());
+                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot) BestPracticeFactory
+                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot>(name, new PersistorStub(), new WebAccessDummy(),
+                        new BusinessLogicStub(false, new NoAssetsInRootResultContent(), Status.NotCalculated), new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bP.Run);
         }
 
@@ -58,12 +49,9 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.NoAssetsI
         {
             const BestPracticeName name = BestPracticeName.No_Assets_In_Root;
             var bP =
-                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot)
-                BestPracticeFactory
-                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot>(name,
-                        new PersistorStub(), new WebAccessDummy(),
-                        new BusinessLogicStub(false, new NoAssetsInRootResultContent(), Status.NotCalculated),
-                        new ResultEditorFactoryDummy());
+                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot) BestPracticeFactory
+                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot>(name, new PersistorStub(), new WebAccessDummy(),
+                        new BusinessLogicStub(false, new NoAssetsInRootResultContent(), Status.NotCalculated), new ResultEditorFactoryDummy());
             Assert.Throws<NotImplementedException>(bP.Fix);
         }
 
@@ -72,12 +60,9 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.NoAssetsI
         {
             const BestPracticeName name = BestPracticeName.No_Assets_In_Root;
             var bP =
-                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot)
-                BestPracticeFactory
-                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot>(name,
-                        new PersistorStub(), new WebAccessDummy(),
-                        new BusinessLogicStub(false, new NoAssetsInRootResultContent(), Status.NotCalculated),
-                        new ResultEditorFactoryDummy());
+                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot) BestPracticeFactory
+                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot.NoAssetsInRoot>(name, new PersistorStub(), new WebAccessDummy(),
+                        new BusinessLogicStub(false, new NoAssetsInRootResultContent(), Status.NotCalculated), new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bP.ShowResults);
         }
     }

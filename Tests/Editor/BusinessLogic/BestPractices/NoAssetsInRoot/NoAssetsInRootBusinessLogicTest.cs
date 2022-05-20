@@ -8,13 +8,12 @@ using Object = UnityEngine.Object;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.NoAssetsInRoot
 {
-    public class NoAssetsInRootBusinessLogicTest
+    public sealed class NoAssetsInRootBusinessLogicTest
     {
         [Test]
         public void TestEvaluationOk()
         {
-            var bL = new NoAssetsInRootBusinessLogic(
-                "Assets", new AssetsProviderStub(new List<Object>(), true, true, ".notUsed", null));
+            var bL = new NoAssetsInRootBusinessLogic("Assets", new AssetsProviderStub(new List<Object>(), true, ".notUsed", null));
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Ok);
             Assert.IsFalse(bL.CanBeFixed());
@@ -23,8 +22,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.NoAssetsI
         [Test]
         public void TestEvaluationWarning()
         {
-            var bL = new NoAssetsInRootBusinessLogic(
-                "Assets", new AssetsProviderStub(new List<Object> {new Object()}, true, true, ".notUsed", null));
+            var bL = new NoAssetsInRootBusinessLogic("Assets", new AssetsProviderStub(new List<Object> {new Object()}, true, ".notUsed", null));
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Warning);
             Assert.IsFalse(bL.CanBeFixed());

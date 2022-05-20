@@ -51,15 +51,14 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.CodeCoverage
 
         public override void ShowResults()
         {
-            ResultEditorFactory.InitialiseResultWindow<CodeCoverageResult>(this);
+            Window = ResultEditorFactory.InitialiseResultWindow<CodeCoverageResult>(this);
         }
 
         protected override void LoadPersistedData()
         {
             _canBeFixed = Persistor.Load(CLASS_KEY + ObjectKey + CanBeFixedVarKey, false);
             status = (Status) Persistor.Load(CLASS_KEY + ObjectKey + STATUS_VAR_KEY, 0);
-            _result = JsonUtility.FromJson<CodeCoverageResultContent>(Persistor.Load(
-                CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(new CodeCoverageResultContent())));
+            _result = JsonUtility.FromJson<CodeCoverageResultContent>(Persistor.Load(CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(new CodeCoverageResultContent())));
         }
 
         protected override void PersistData()

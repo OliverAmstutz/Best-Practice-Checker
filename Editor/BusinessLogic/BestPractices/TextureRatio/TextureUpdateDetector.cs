@@ -7,11 +7,9 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
     {
         public delegate void ImportTextureEvent();
 
-        private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets,
-            string[] movedAssets, string[] movedFromAssetPaths)
+        private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
         {
-            if (deletedAssets.Length > 0 && ImportTexture != null)
-                ImportTexture();
+            if (deletedAssets.Length > 0 && ImportTexture != null) ImportTexture();
         }
 
         private void OnPostprocessTexture(Texture2D texture)

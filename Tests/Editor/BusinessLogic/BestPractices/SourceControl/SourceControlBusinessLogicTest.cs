@@ -10,14 +10,12 @@ using Object = UnityEngine.Object;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.SourceControl
 {
-    public class SourceControlBusinessLogicTest
+    public sealed class SourceControlBusinessLogicTest
     {
         [Test]
         public void TestEvaluateGitOk()
         {
-            var bL = new SourceControlBusinessLogic(
-                new AssetsProviderStub(new List<Object>(), true, true, "notUsed", null),
-                new PackageUtilityStub(true, true, PackageStatus.Outdated),
+            var bL = new SourceControlBusinessLogic(new AssetsProviderStub(new List<Object>(), true, "notUsed", null), new PackageUtilityStub(true, true, PackageStatus.Outdated),
                 new VersionControlStatusStub(UnityVersionControl.VisibleMetaFiles));
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Ok);
@@ -28,9 +26,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.SourceCon
         [Test]
         public void TestEvaluateGitVersionControlSetting()
         {
-            var bL = new SourceControlBusinessLogic(
-                new AssetsProviderStub(new List<Object>(), true, true, "notUsed", null),
-                new PackageUtilityStub(true, true, PackageStatus.Outdated),
+            var bL = new SourceControlBusinessLogic(new AssetsProviderStub(new List<Object>(), true, "notUsed", null), new PackageUtilityStub(true, true, PackageStatus.Outdated),
                 new VersionControlStatusStub(UnityVersionControl.PlasticSCM));
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Warning);
@@ -41,9 +37,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.SourceCon
         [Test]
         public void TestEvaluateUnityVersionControlOkAndVersionControlSetting()
         {
-            var bL = new SourceControlBusinessLogic(
-                new AssetsProviderStub(new List<Object>(), true, false, "notUsed", null),
-                new PackageUtilityStub(true, true, PackageStatus.UpToDate),
+            var bL = new SourceControlBusinessLogic(new AssetsProviderStub(new List<Object>(), false, "notUsed", null), new PackageUtilityStub(true, true, PackageStatus.UpToDate),
                 new VersionControlStatusStub(UnityVersionControl.VisibleMetaFiles));
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Warning);
@@ -54,9 +48,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.SourceCon
         [Test]
         public void TestEvaluateUnityVersionControlOk()
         {
-            var bL = new SourceControlBusinessLogic(
-                new AssetsProviderStub(new List<Object>(), true, false, "notUsed", null),
-                new PackageUtilityStub(true, true, PackageStatus.UpToDate),
+            var bL = new SourceControlBusinessLogic(new AssetsProviderStub(new List<Object>(), false, "notUsed", null), new PackageUtilityStub(true, true, PackageStatus.UpToDate),
                 new VersionControlStatusStub(UnityVersionControl.Perforce));
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Ok);
@@ -67,23 +59,18 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.SourceCon
         [Test]
         public void TestEvaluateUnityVersionControlOutdatedAndVersionControlSetting()
         {
-            var bL = new SourceControlBusinessLogic(
-                new AssetsProviderStub(new List<Object>(), true, false, "notUsed", null),
-                new PackageUtilityStub(true, true, PackageStatus.Outdated),
+            var bL = new SourceControlBusinessLogic(new AssetsProviderStub(new List<Object>(), false, "notUsed", null), new PackageUtilityStub(true, true, PackageStatus.Outdated),
                 new VersionControlStatusStub(UnityVersionControl.VisibleMetaFiles));
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Warning);
-            Assert.That(bL.Result().Status() ==
-                        SourceControlStatus.UnityVersionControlOutdatedAndVersionControlSetting);
+            Assert.That(bL.Result().Status() == SourceControlStatus.UnityVersionControlOutdatedAndVersionControlSetting);
             Assert.IsTrue(bL.CanBeFixed());
         }
 
         [Test]
         public void TestEvaluateUnityVersionControlOutdated()
         {
-            var bL = new SourceControlBusinessLogic(
-                new AssetsProviderStub(new List<Object>(), true, false, "notUsed", null),
-                new PackageUtilityStub(true, true, PackageStatus.Outdated),
+            var bL = new SourceControlBusinessLogic(new AssetsProviderStub(new List<Object>(), false, "notUsed", null), new PackageUtilityStub(true, true, PackageStatus.Outdated),
                 new VersionControlStatusStub(UnityVersionControl.Perforce));
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Warning);
@@ -94,10 +81,8 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.SourceCon
         [Test]
         public void TestEvaluateNoSourceControl()
         {
-            var bL = new SourceControlBusinessLogic(
-                new AssetsProviderStub(new List<Object>(), true, false, "notUsed", null),
-                new PackageUtilityStub(true, true, PackageStatus.NotInstalled),
-                new VersionControlStatusStub(UnityVersionControl.VisibleMetaFiles));
+            var bL = new SourceControlBusinessLogic(new AssetsProviderStub(new List<Object>(), false, "notUsed", null),
+                new PackageUtilityStub(true, true, PackageStatus.NotInstalled), new VersionControlStatusStub(UnityVersionControl.VisibleMetaFiles));
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Error);
             Assert.That(bL.Result().Status() == SourceControlStatus.NoSourceControl);
@@ -107,9 +92,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.SourceCon
         [Test]
         public void TestFixFalse()
         {
-            var bL = new SourceControlBusinessLogic(
-                new AssetsProviderStub(new List<Object>(), true, true, "notUsed", null),
-                new PackageUtilityStub(true, true, PackageStatus.Outdated),
+            var bL = new SourceControlBusinessLogic(new AssetsProviderStub(new List<Object>(), true, "notUsed", null), new PackageUtilityStub(true, true, PackageStatus.Outdated),
                 new VersionControlStatusStub(UnityVersionControl.VisibleMetaFiles));
             bL.Evaluation();
             Assert.Throws<InvalidOperationException>(bL.Fix);
@@ -118,9 +101,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.SourceCon
         [Test]
         public void TestFixTrue()
         {
-            var bL = new SourceControlBusinessLogic(
-                new AssetsProviderStub(new List<Object>(), true, false, "notUsed", null),
-                new PackageUtilityStub(true, true, PackageStatus.Outdated),
+            var bL = new SourceControlBusinessLogic(new AssetsProviderStub(new List<Object>(), false, "notUsed", null), new PackageUtilityStub(true, true, PackageStatus.Outdated),
                 new VersionControlStatusStub(UnityVersionControl.HiddenMetaFiles));
             bL.Evaluation();
             Assert.DoesNotThrow(bL.Fix);

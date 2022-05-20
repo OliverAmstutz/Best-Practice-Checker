@@ -2,7 +2,7 @@
 
 namespace BestPracticeChecker.Editor.BusinessLogic.PackageUtility
 {
-    public class VersionControlStatus : IVersionControlStatus
+    public sealed class VersionControlStatus : IVersionControlStatus
     {
         public UnityVersionControl Evaluate(string mode)
         {

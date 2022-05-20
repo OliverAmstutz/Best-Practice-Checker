@@ -15,7 +15,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices
             const BestPracticeName name = BestPracticeName.Placeholder;
             var bP = BestPracticeFactory.Create<BestPracticeDummy>(name, new PersistorStub(),
                 new WebAccessDummy(), new BusinessLogicStub(), new ResultEditorFactoryDummy());
-            Assert.That(bP.GetName().Equals(name));
+            Assert.That(bP.GetName().Equals("Placeholder"));
         }
 
         [Test]
@@ -40,6 +40,14 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices
             var bP = BestPracticeFactory.Create<BestPracticeDummy>(BestPracticeName.Placeholder,
                 new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(), new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bP.ShowResults);
+        }
+
+        [Test]
+        public void TestGetResult()
+        {
+            var bP = BestPracticeFactory.Create<BestPracticeDummy>(BestPracticeName.Placeholder, new PersistorStub(), new WebAccessDummy(), new BusinessLogicStub(),
+                new ResultEditorFactoryDummy());
+            Assert.IsNull(bP.GetResult());
         }
 
         [Test]

@@ -43,18 +43,27 @@ namespace BestPracticeChecker.Editor.UI.BestPractices.NoAssetsInRoot
                 Debug.LogWarning("_bestPractice is null!");
         }
 
-        private static void DisplayMisplacedAssets(List<string> misplacedObjectPaths)
+        private void DisplayMisplacedAssets(List<string> misplacedObjectPaths)
         {
             if (misplacedObjectPaths.Count == 0) return;
             using (new GUILayout.VerticalScope(EditorStyles.helpBox))
             {
-                foreach (var obj in misplacedObjectPaths.Select(AssetDatabase.LoadMainAssetAtPath)
-                             .Where(obj => obj != null))
-                    using (new GUILayout.HorizontalScope(EditorStyles.helpBox))
-                    {
-                        if (GUILayout.Button("View " + obj.name)) Highlighter.HighlightObject(obj);
-                        GUILayout.Label("Type: " + obj.GetType());
-                    }
+                DisplayAllMisplacedAssets(misplacedObjectPaths);
+            }
+        }
+
+        private void DisplayAllMisplacedAssets(List<string> misplacedObjectPaths)
+        {
+            foreach (var obj in misplacedObjectPaths.Select(AssetDatabase.LoadMainAssetAtPath).Where(obj => obj != null))
+                DisplayAsset(obj);
+        }
+
+        private void DisplayAsset(Object obj)
+        {
+            using (new GUILayout.HorizontalScope(EditorStyles.helpBox))
+            {
+                if (GUILayout.Button(new GUIContent("View " + obj.name, "Shows asset in project hierarchy"))) Highlighter.HighlightObject(obj);
+                GUILayout.Label("Type: " + obj.GetType());
             }
         }
     }

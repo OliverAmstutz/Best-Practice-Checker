@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.CodeAnalyser
 {
     [Serializable]
-    public class CodeAnalyserResultContent : IResult
+    public sealed class CodeAnalyserResultContent : IResult
     {
         [SerializeField] private CodeAnalyserStatus status = CodeAnalyserStatus.NotInitialised;
 

@@ -12,20 +12,17 @@ using UnityEngine;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.CodeAnalyser
 {
-    public class CodeAnalyserBusinessLogicTest
+    public sealed class CodeAnalyserBusinessLogicTest
     {
         [Test]
         public void IntegrationTestEvaluateOk()
         {
-            var bestPracticeChecker = (DefaultAsset)
-                new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAsset(
-                    "BestPracticeChecker", "dll");
+            var bestPracticeChecker =
+                (DefaultAsset) new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAssetOfNameAndFileExtension("BestPracticeChecker", "dll");
             AssetDatabase.SetLabels(bestPracticeChecker, new[] {"RoslynAnalyzer"});
             AssetDatabase.Refresh();
             var assets = new List<Object> {bestPracticeChecker};
-            var bL = new CodeAnalyserBusinessLogic(
-                new AssetsProviderStub(assets, false, false, "notUsed", bestPracticeChecker),
-                new PreferencesStub(Ide.Rider));
+            var bL = new CodeAnalyserBusinessLogic(new AssetsProviderStub(assets, false, "notUsed", bestPracticeChecker), new PreferencesStub(Ide.Rider));
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Ok);
             Assert.IsFalse(bL.CanBeFixed());
@@ -36,13 +33,10 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.CodeAnaly
         [Test]
         public void IntegrationTestEvaluateWarning()
         {
-            var bestPracticeChecker = (DefaultAsset)
-                new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAsset(
-                    "BestPracticeChecker", "dll");
+            var bestPracticeChecker =
+                (DefaultAsset) new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAssetOfNameAndFileExtension("BestPracticeChecker", "dll");
             var assets = new List<Object> {bestPracticeChecker};
-            var bL = new CodeAnalyserBusinessLogic(
-                new AssetsProviderStub(assets, false, false, "notUsed", bestPracticeChecker),
-                new PreferencesStub(Ide.VisualStudio));
+            var bL = new CodeAnalyserBusinessLogic(new AssetsProviderStub(assets, false, "notUsed", bestPracticeChecker), new PreferencesStub(Ide.VisualStudio));
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Warning);
             Assert.IsTrue(bL.CanBeFixed());
@@ -52,9 +46,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.CodeAnaly
         [Test]
         public void IntegrationTestEvaluateErrorNotSupportedIde()
         {
-            var bL = new CodeAnalyserBusinessLogic(
-                new AssetsProviderStub(new List<Object>(), false, false, "notUsed", null),
-                new PreferencesStub(Ide.Unknown));
+            var bL = new CodeAnalyserBusinessLogic(new AssetsProviderStub(new List<Object>(), false, "notUsed", null), new PreferencesStub(Ide.Unknown));
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Error);
             Assert.IsFalse(bL.CanBeFixed());
@@ -63,9 +55,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.CodeAnaly
         [Test]
         public void IntegrationTestEvaluateError()
         {
-            var bL = new CodeAnalyserBusinessLogic(
-                new AssetsProviderStub(new List<Object>(), false, false, "notUsed", null),
-                new PreferencesStub(Ide.VisualStudio));
+            var bL = new CodeAnalyserBusinessLogic(new AssetsProviderStub(new List<Object>(), false, "notUsed", null), new PreferencesStub(Ide.VisualStudio));
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Error);
             Assert.IsTrue(bL.CanBeFixed());
@@ -75,16 +65,14 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.CodeAnaly
         public void IntegrationTestFixMisConfig()
         {
             var bL = new CodeAnalyserBusinessLogic();
-            var bestPracticeChecker = (DefaultAsset)
-                new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAsset(
-                    "BestPracticeChecker", "dll");
+            var bestPracticeChecker =
+                (DefaultAsset) new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAssetOfNameAndFileExtension("BestPracticeChecker", "dll");
             var defaultAssetImporter = AssetImportProvider.ImporterForPlugin(bestPracticeChecker);
             defaultAssetImporter.SetCompatibleWithAnyPlatform(true);
             bL.Evaluation();
             Assert.DoesNotThrow(bL.Fix);
             var updatedBpc =
-                (DefaultAsset) new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAsset(
-                    "BestPracticeChecker", "dll");
+                (DefaultAsset) new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAssetOfNameAndFileExtension("BestPracticeChecker", "dll");
             var updatedImporter = AssetImportProvider.ImporterForPlugin(updatedBpc);
             Assert.IsFalse(updatedImporter.GetCompatibleWithAnyPlatform());
             AssetDatabase.SetLabels(updatedBpc, new[] {""});
@@ -94,15 +82,12 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.CodeAnaly
         [Test]
         public void IntegrationTestFixSetup()
         {
-            var bL = new CodeAnalyserBusinessLogic(
-                new AssetsProviderStub(new List<Object>(), false, false, "notUsed", null),
-                new PreferencesStub(Ide.VisualStudio));
+            var bL = new CodeAnalyserBusinessLogic(new AssetsProviderStub(new List<Object>(), false, "notUsed", null), new PreferencesStub(Ide.VisualStudio));
             bL.Fix();
             AssetDatabase.Refresh();
             const string expectedPath = "Assets/Editor/Plugin";
             Assert.IsTrue(AssetDatabase.IsValidFolder(expectedPath));
-            Assert.IsNotEmpty(new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider()
-                .FindAllAssetsInFolder(expectedPath));
+            Assert.IsNotEmpty(new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAllAssetsInFolder(expectedPath));
             AssetDatabase.Refresh();
             Assert.IsTrue(AssetDatabase.DeleteAsset("Assets/Editor/Plugin/BestPracticeChecker.dll"));
             AssetDatabase.Refresh();

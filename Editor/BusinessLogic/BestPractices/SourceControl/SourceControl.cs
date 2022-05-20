@@ -51,15 +51,14 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl
 
         public override void ShowResults()
         {
-            ResultEditorFactory.InitialiseResultWindow<SourceControlResult>(this);
+            Window = ResultEditorFactory.InitialiseResultWindow<SourceControlResult>(this);
         }
 
         protected override void LoadPersistedData()
         {
             _canBeFixed = Persistor.Load(CLASS_KEY + ObjectKey + CanBeFixedVarKey, false);
             status = (Status) Persistor.Load(CLASS_KEY + ObjectKey + STATUS_VAR_KEY, 0);
-            _result = JsonUtility.FromJson<SourceControlResultContent>(Persistor.Load(
-                CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(new SourceControlResultContent())));
+            _result = JsonUtility.FromJson<SourceControlResultContent>(Persistor.Load(CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(new SourceControlResultContent())));
         }
 
         protected override void PersistData()

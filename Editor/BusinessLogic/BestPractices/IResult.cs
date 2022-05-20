@@ -1,7 +1,7 @@
 namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices
 {
     /// <summary>
-    ///     Interface to best practice result.
+    ///     Best practice result.
     /// </summary>
     public interface IResult
     {

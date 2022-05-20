@@ -6,8 +6,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot
     {
         public delegate void ImportAssetEvent();
 
-        private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets,
-            string[] movedAssets, string[] movedFromAssetPaths)
+        private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
         {
             ImportAsset?.Invoke();
         }

@@ -8,13 +8,12 @@ using UnityEngine;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRatio
 {
-    public class TextureRatioBusinessLogicTest
+    public sealed class TextureRatioBusinessLogicTest
     {
         [Test]
         public void TestEvaluationOk()
         {
-            var bL = new TextureRatioBusinessLogic(
-                "Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/TextureRatio");
+            var bL = new TextureRatioBusinessLogic("Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/TextureRatio");
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Ok);
             Assert.IsFalse(bL.CanBeFixed());
@@ -25,12 +24,10 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
         {
             const string fileName = "5x7Texture.jpg";
             const string sourcePath = "./Assets/BestPracticeChecker/Tests/TestAssets/";
-            const string targetPath =
-                "Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/TextureRatio";
+            const string targetPath = "Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/TextureRatio";
             File.Copy(sourcePath + fileName, "./" + targetPath + "/" + fileName);
             AssetDatabase.Refresh();
-            var textures = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider()
-                .FindAllAssetsOfType<Texture>(targetPath);
+            var textures = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAllAssetsOfType<Texture>(targetPath);
             var textureImporter = AssetImportProvider.ImporterForTexture(textures[0]);
             textureImporter.npotScale = TextureImporterNPOTScale.None;
             textureImporter.SaveAndReimport();
@@ -51,12 +48,10 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
         {
             const string fileName = "5x7Texture.jpg";
             const string sourcePath = "./Assets/BestPracticeChecker/Tests/TestAssets/";
-            const string targetPath =
-                "Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/TextureRatio";
+            const string targetPath = "Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/TextureRatio";
             File.Copy(sourcePath + fileName, "./" + targetPath + "/" + fileName);
             AssetDatabase.Refresh();
-            var textures = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider()
-                .FindAllAssetsOfType<Texture>(targetPath);
+            var textures = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAllAssetsOfType<Texture>(targetPath);
             var textureImporter = AssetImportProvider.ImporterForTexture(textures[0]);
             textureImporter.npotScale = TextureImporterNPOTScale.None;
             textureImporter.textureCompression = TextureImporterCompression.Uncompressed;
@@ -78,12 +73,10 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
         {
             const string fileName = "6x6 Texture.png";
             const string sourcePath = "./Assets/BestPracticeChecker/Tests/TestAssets/";
-            const string targetPath =
-                "Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/TextureRatio";
+            const string targetPath = "Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/TextureRatio";
             File.Copy(sourcePath + fileName, "./" + targetPath + "/" + fileName);
             AssetDatabase.Refresh();
-            var textures = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider()
-                .FindAllAssetsOfType<Texture>(targetPath);
+            var textures = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAllAssetsOfType<Texture>(targetPath);
             var textureImporter = AssetImportProvider.ImporterForTexture(textures[0]);
             textureImporter.textureCompression = TextureImporterCompression.Uncompressed;
             textureImporter.SaveAndReimport();
@@ -104,12 +97,10 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
         {
             const string fileName = "6x6 Texture.png";
             const string sourcePath = "./Assets/BestPracticeChecker/Tests/TestAssets/";
-            const string targetPath =
-                "Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/TextureRatio";
+            const string targetPath = "Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/TextureRatio";
             File.Copy(sourcePath + fileName, "./" + targetPath + "/" + fileName);
             AssetDatabase.Refresh();
-            var textures = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider()
-                .FindAllAssetsOfType<Texture>(targetPath);
+            var textures = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAllAssetsOfType<Texture>(targetPath);
             var textureImporter = AssetImportProvider.ImporterForTexture(textures[0]);
             textureImporter.textureCompression = TextureImporterCompression.Uncompressed;
             textureImporter.SaveAndReimport();

@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.CodeAnalyser
 {
-    public class CodeAnalyserResultContentTest
+    public sealed class CodeAnalyserResultContentTest
     {
         [Test]
         public void TestCodeAnalyserOk()

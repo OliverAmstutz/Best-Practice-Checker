@@ -37,9 +37,9 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat
             notIdealAudioClips.Add(audioClipPath);
         }
 
-        public List<string> NotIdealAudioClips()
+        public IReadOnlyList<string> NotIdealAudioClips()
         {
-            return notIdealAudioClips;
+            return notIdealAudioClips.AsReadOnly();
         }
     }
 }

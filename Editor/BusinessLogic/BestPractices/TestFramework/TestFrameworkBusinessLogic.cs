@@ -3,7 +3,7 @@ using BestPracticeChecker.Editor.BusinessLogic.PackageUtility;
 
 namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework
 {
-    public class TestFrameworkBusinessLogic : IBusinessLogic<TestFrameworkResultContent>
+    public sealed class TestFrameworkBusinessLogic : IBusinessLogic<TestFrameworkResultContent>
     {
         private const string TestFrameWorkPackageName = "com.unity.test-framework";
         private readonly IPackageUtility _pu;
@@ -30,23 +30,13 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework
             if (_pu.PackageExists(TestFrameWorkPackageName))
             {
                 if (_pu.IsUpToDate(TestFrameWorkPackageName))
-                {
-                    _canBeFixed = false;
-                    _status = Status.Ok;
-                    _result.Status(PackageStatus.UpToDate);
-                }
+                    SetStatus(false, Status.Ok, PackageStatus.UpToDate);
                 else
-                {
-                    _canBeFixed = true;
-                    _status = Status.Warning;
-                    _result.Status(PackageStatus.Outdated);
-                }
+                    SetStatus(true, Status.Warning, PackageStatus.Outdated);
             }
             else
             {
-                _canBeFixed = true;
-                _status = Status.Error;
-                _result.Status(PackageStatus.NotInstalled);
+                SetStatus(true, Status.Error, PackageStatus.NotInstalled);
             }
         }
 
@@ -68,6 +58,13 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework
         public void Fix()
         {
             InstallLatestTestFramework();
+        }
+
+        private void SetStatus(bool canBeFixed, Status status, PackageStatus packageStatus)
+        {
+            _canBeFixed = canBeFixed;
+            _status = status;
+            _result.Status(packageStatus);
         }
 
         private void InstallLatestTestFramework()

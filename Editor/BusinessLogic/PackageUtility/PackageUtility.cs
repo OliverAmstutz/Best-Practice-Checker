@@ -8,11 +8,17 @@ using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace BestPracticeChecker.Editor.BusinessLogic.PackageUtility
 {
-    public class PackageUtility : IPackageUtility
+    public sealed class PackageUtility : IPackageUtility
     {
+        private const string ParseSymbol = "@";
+        private const string EmptyString = "";
+        private const char ParameterSeparatorDot = '.';
+        private const char ParameterSeparatorDash = '-';
+        private const int VerifiedVersionLength = 3;
         private readonly ListRequest _listRequest;
         private readonly List<PackageInfo> _packages;
         private AddRequest _addRequest;
+
 
         public PackageUtility()
         {
@@ -39,16 +45,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.PackageUtility
         {
             if (!_listRequest.IsCompleted) WaitForInitialisation();
             ReinitialisePackages();
-            foreach (var packageInfo in _packages)
-                if (packageInfo.name.Equals(packageName))
-                {
-                    var version = packageInfo.versions.verified;
-                    if (version.Equals("") && GetLatestVerifiedVersion(packageInfo)
-                            .Equals(GetVersionFromPackageId(packageInfo.packageId))) return true;
-                    if (version.Equals(GetVersionFromPackageId(packageInfo.packageId))) return true;
-                }
-
-            return false;
+            return _packages.Any(packageInfo => VerifyVersion(packageName, packageInfo));
         }
 
         public void InstallLatestPackage(string packageName)
@@ -59,11 +56,19 @@ namespace BestPracticeChecker.Editor.BusinessLogic.PackageUtility
             EditorApplication.update += AddProgress;
             while (!_addRequest.IsCompleted)
             {
-                //Is on purpose empty, as it is used to stuck here until the async list call is executed.
+                //Is on purpose empty, as it is used to stuck here until the async list call is finished.
             }
 
             AddProgress();
             Debug.Log("Installation of " + packageName + " was a " + _addRequest.Status);
+        }
+
+        private bool VerifyVersion(string packageName, PackageInfo packageInfo)
+        {
+            if (!packageInfo.name.Equals(packageName)) return false;
+            var version = packageInfo.versions.verified;
+            if (version.Equals(EmptyString) && GetLatestVerifiedVersion(packageInfo).Equals(GetVersionFromPackageId(packageInfo.packageId))) return true;
+            return version.Equals(GetVersionFromPackageId(packageInfo.packageId));
         }
 
         public void RemovePackage(string packageName)
@@ -72,7 +77,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.PackageUtility
             var rmRequest = Client.Remove(packageName);
             while (!rmRequest.IsCompleted)
             {
-                //Is on purpose empty, as it is used to stuck here until the async list call is executed.
+                //Is on purpose empty, as it is used to stuck here until the async list call is finished.
             }
 
             Debug.Log("Removing " + packageName + " was a: " + rmRequest.Status);
@@ -83,32 +88,27 @@ namespace BestPracticeChecker.Editor.BusinessLogic.PackageUtility
             var allVersions = packageInfo.versions.all;
             for (var i = allVersions.Length - 1; i >= 0; i--)
             {
-                var split = allVersions[i].Split('.', '-');
-                if (split.Length != 3) continue;
+                var split = allVersions[i].Split(ParameterSeparatorDot, ParameterSeparatorDash);
+                if (split.Length != VerifiedVersionLength) continue;
                 return allVersions[i];
             }
 
-            return "";
+            return EmptyString;
         }
 
         private void WaitForInitialisation()
         {
             while (!_listRequest.IsCompleted)
             {
-                //Is on purpose empty, as it is used to stuck here until the async list call is executed.
+                //Is on purpose empty, as it is used to stuck here until the async list call is finished.
             }
         }
 
         private void ListProgress()
         {
             if (!_listRequest.IsCompleted) return;
-            if (_listRequest.Status == StatusCode.Success)
-                foreach (var package in _listRequest.Result)
-                    _packages.Add(package);
-
-            else if (_listRequest.Status >= StatusCode.Failure)
-                Debug.LogError(_listRequest.Error.message);
-
+            if (_listRequest.Status == StatusCode.Success) _packages.AddRange(_listRequest.Result);
+            else if (_listRequest.Status >= StatusCode.Failure) Debug.LogError(_listRequest.Error.message);
             EditorApplication.update -= ListProgress;
         }
 
@@ -120,15 +120,13 @@ namespace BestPracticeChecker.Editor.BusinessLogic.PackageUtility
 
         private static string GetVersionFromPackageId(string packageId)
         {
-            return packageId.Split(char.Parse("@"))[1];
+            return packageId.Split(char.Parse(ParseSymbol))[1];
         }
 
         private void AddProgress()
         {
             if (!_addRequest.IsCompleted) return;
-            if (_addRequest.Status >= StatusCode.Failure)
-                Debug.Log(_addRequest.Error.message);
-
+            if (_addRequest.Status >= StatusCode.Failure) Debug.Log(_addRequest.Error.message);
             EditorApplication.update -= AddProgress;
         }
     }

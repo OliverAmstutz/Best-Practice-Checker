@@ -45,15 +45,14 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.CodeAnalyser
 
         public override void ShowResults()
         {
-            ResultEditorFactory.InitialiseResultWindow<CodeAnalyserResult>(this);
+            Window = ResultEditorFactory.InitialiseResultWindow<CodeAnalyserResult>(this);
         }
 
         protected override void LoadPersistedData()
         {
             _canBeFixed = Persistor.Load(CLASS_KEY + ObjectKey + CanBeFixedVarKey, false);
             status = (Status) Persistor.Load(CLASS_KEY + ObjectKey + STATUS_VAR_KEY, 0);
-            _result = JsonUtility.FromJson<CodeAnalyserResultContent>(Persistor.Load(
-                CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(new CodeAnalyserResultContent())));
+            _result = JsonUtility.FromJson<CodeAnalyserResultContent>(Persistor.Load(CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(new CodeAnalyserResultContent())));
         }
 
         protected override void PersistData()

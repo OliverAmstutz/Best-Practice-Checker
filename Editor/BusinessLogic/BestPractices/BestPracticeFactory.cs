@@ -15,14 +15,12 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices
 
         public static IBestPractice Create<T>(BestPracticeName bpName) where T : BestPractice
         {
-            return Create<T>(bpName, new Persistor.Persistor(), new WebAccess.WebAccess(), null,
-                new ResultEditorFactory());
+            return Create<T>(bpName, new Persistor.Persistor(), new WebAccess.WebAccess(), null, new ResultEditorFactory());
         }
 
 
-        public static IBestPractice Create<T>(BestPracticeName bpName, IPersistor persistor,
-            IWebAccess webAccess, IBusinessLogic<IResult> businessLogic, IResultEditorFactory resultEditorFactory)
-            where T : BestPractice
+        public static IBestPractice Create<T>(BestPracticeName bpName, IPersistor persistor, IWebAccess webAccess, IBusinessLogic<IResult> businessLogic,
+            IResultEditorFactory resultEditorFactory) where T : BestPractice
         {
             var bp = CreateInstance<T>();
             bp.Name(bpName);

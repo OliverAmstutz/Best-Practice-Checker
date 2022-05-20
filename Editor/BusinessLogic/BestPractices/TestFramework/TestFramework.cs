@@ -44,15 +44,14 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TestFramework
 
         public override void ShowResults()
         {
-            ResultEditorFactory.InitialiseResultWindow<TestFrameworkResult>(this);
+            Window = ResultEditorFactory.InitialiseResultWindow<TestFrameworkResult>(this);
         }
 
         protected override void LoadPersistedData()
         {
             _canBeFixed = Persistor.Load(CLASS_KEY + ObjectKey + CanBeFixedVarKey, false);
             status = (Status) Persistor.Load(CLASS_KEY + ObjectKey + STATUS_VAR_KEY, 0);
-            _result = JsonUtility.FromJson<TestFrameworkResultContent>(Persistor.Load(
-                CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(new TestFrameworkResultContent())));
+            _result = JsonUtility.FromJson<TestFrameworkResultContent>(Persistor.Load(CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(new TestFrameworkResultContent())));
         }
 
         protected override void PersistData()

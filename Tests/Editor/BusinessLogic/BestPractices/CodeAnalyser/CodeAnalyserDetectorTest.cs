@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.CodeAnalyser
 {
-    public class CodeAnalyserDetectorTest
+    public sealed class CodeAnalyserDetectorTest
     {
         private int _counter;
 

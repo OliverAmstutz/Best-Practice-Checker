@@ -5,9 +5,10 @@ using UnityEditor;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.NoAssetsInRoot
 {
-    public class AssetUpdateDetectorTest
+    public sealed class AssetUpdateDetectorTest
     {
-        private int _counter = 0;
+        private int _counter;
+
         [Test]
         public void IntegrationTestOnPostprocessAllAssets()
         {
@@ -15,8 +16,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.NoAssetsI
             const string fileName = "5x7Texture.jpg";
             const string sourcePath = "./Assets/BestPracticeChecker/Tests/TestAssets/";
             const string targetPath = "Assets";
-            File.Copy(sourcePath+fileName, "./"+targetPath+"/"+fileName);
-            AssetDatabase.Refresh();
+            File.Copy(sourcePath + fileName, "./" + targetPath + "/" + fileName);
             AssetDatabase.Refresh();
             AssetDatabase.DeleteAsset(targetPath + "/" + fileName);
             AssetDatabase.Refresh();

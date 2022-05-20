@@ -1,3 +1,4 @@
+using System.Linq;
 using BestPracticeChecker.Editor.BusinessLogic;
 using BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat;
 using NUnit.Framework;
@@ -20,8 +21,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.AudioForm
         {
             var content = new AudioFormatResultContent();
             content.Status(Status.Warning);
-            Assert.That(content.Content()
-                .Contains("You have audio clips which source is not in the recommended (lossless) file format."));
+            Assert.That(content.Content().Contains("You have audio clips which source is not in the recommended (lossless) file format."));
         }
 
         [Test]
@@ -44,13 +44,11 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.AudioForm
         public void TestAddNotIdealAudioClip()
         {
             var content = new AudioFormatResultContent();
-            var audios = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider()
-                .FindAllAssetsOfType<AudioClip>(
-                    "Assets");
+            var audios = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAllAssetsOfType<AudioClip>("Assets");
             foreach (var audioClip in audios)
             {
                 content.AddNotIdealAudioClip(audioClip.ToString());
-                Assert.True(content.NotIdealAudioClips().Contains(audioClip.ToString()));
+                Assert.True(content.NotIdealAudioClips().ToList().Contains(audioClip.ToString()));
             }
         }
     }

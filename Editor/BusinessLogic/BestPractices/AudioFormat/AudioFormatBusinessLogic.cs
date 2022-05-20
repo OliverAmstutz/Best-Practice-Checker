@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BestPracticeChecker.Editor.BusinessLogic.AssetsProvider;
 using UnityEditor;
 using UnityEngine;
 
 namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat
 {
-    public class AudioFormatBusinessLogic : IBusinessLogic<AudioFormatResultContent>
+    public sealed class AudioFormatBusinessLogic : IBusinessLogic<AudioFormatResultContent>
     {
         private const string Root = "Assets";
         private const bool _canBeFixed = false;
@@ -15,6 +16,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat
         private IReadOnlyList<AudioClip> _audios;
         private AudioFormatResultContent _result = new AudioFormatResultContent();
         private Status _status;
+        private IAudioFormatType _audioFormatType;
 
         public AudioFormatBusinessLogic() : this(Root)
         {
@@ -25,6 +27,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat
             _rootFolder = rootFolder;
             _assetsProvider = new AssetsProvider.AssetsProvider();
             _audios = new List<AudioClip>().AsReadOnly();
+            _audioFormatType = new AudioFormatType();
         }
 
         public void Evaluation()
@@ -32,9 +35,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat
             _audios = _assetsProvider.FindAllAssetsOfType<AudioClip>(_rootFolder);
             _result = new AudioFormatResultContent();
             _status = Status.Ok;
-
-            foreach (var audio in _audios) AnalyseAudio(audio);
-
+            _audios.ToList().ForEach(AnalyseAudio);
             _result.Status(_status);
         }
 
@@ -60,7 +61,12 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat
 
         private void AnalyseAudio(AudioClip audio)
         {
-            var audioType = new AudioFormatType().Evaluate(_assetsProvider.FileExtensionOfAsset(audio));
+            var audioType = _audioFormatType.Evaluate(_assetsProvider.FileExtensionOfAsset(audio));
+            AssignAudioType(audio, audioType);
+        }
+
+        private void AssignAudioType(AudioClip audio, SupportedAudioFormat audioType)
+        {
             switch (audioType)
             {
                 case SupportedAudioFormat.Mp3:

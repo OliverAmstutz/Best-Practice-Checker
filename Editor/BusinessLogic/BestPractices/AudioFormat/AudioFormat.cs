@@ -12,6 +12,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat
         private bool _canBeFixed;
         private AudioFormatResultContent _result;
 
+
         public override void Init()
         {
             base.Init();
@@ -36,7 +37,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat
 
         public override void ShowResults()
         {
-            ResultEditorFactory.InitialiseResultWindow<AudioFormatResult>(this);
+            Window = ResultEditorFactory.InitialiseResultWindow<AudioFormatResult>(this);
         }
 
         protected override void LoadPersistedData()

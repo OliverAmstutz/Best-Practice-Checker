@@ -15,11 +15,9 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.AudioForm
         {
             const BestPracticeName name = BestPracticeName.Audio_Format;
             var bP =
-                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat) BestPracticeFactory
-                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat>(name,
-                        new PersistorStub(), new WebAccessDummy(),
-                        new BusinessLogicStub(true, new AudioFormatResultContent(), Status.NotCalculated),
-                        new ResultEditorFactoryDummy());
+                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat)
+                BestPracticeFactory.Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat>(name, new PersistorStub(), new WebAccessDummy(),
+                    new BusinessLogicStub(true, new AudioFormatResultContent(), Status.NotCalculated), new ResultEditorFactoryDummy());
             Assert.False(bP.HasFix());
         }
 
@@ -28,11 +26,9 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.AudioForm
         {
             const BestPracticeName name = BestPracticeName.Audio_Format;
             var bP =
-                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat) BestPracticeFactory
-                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat>(name,
-                        new PersistorStub(), new WebAccessDummy(),
-                        new BusinessLogicStub(false, new AudioFormatResultContent(), Status.NotCalculated),
-                        new ResultEditorFactoryDummy());
+                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat)
+                BestPracticeFactory.Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat>(name, new PersistorStub(), new WebAccessDummy(),
+                    new BusinessLogicStub(false, new AudioFormatResultContent(), Status.NotCalculated), new ResultEditorFactoryDummy());
             Assert.NotNull(bP.GetResult());
         }
 
@@ -41,11 +37,9 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.AudioForm
         {
             const BestPracticeName name = BestPracticeName.Audio_Format;
             var bP =
-                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat) BestPracticeFactory
-                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat>(name,
-                        new PersistorStub(), new WebAccessDummy(),
-                        new BusinessLogicStub(false, new AudioFormatResultContent(), Status.NotCalculated),
-                        new ResultEditorFactoryDummy());
+                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat)
+                BestPracticeFactory.Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat>(name, new PersistorStub(), new WebAccessDummy(),
+                    new BusinessLogicStub(false, new AudioFormatResultContent(), Status.NotCalculated), new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bP.Run);
         }
 
@@ -54,11 +48,9 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.AudioForm
         {
             const BestPracticeName name = BestPracticeName.Audio_Format;
             var bP =
-                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat) BestPracticeFactory
-                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat>(name,
-                        new PersistorStub(), new WebAccessDummy(),
-                        new BusinessLogicStub(false, new AudioFormatResultContent(), Status.NotCalculated),
-                        new ResultEditorFactoryDummy());
+                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat)
+                BestPracticeFactory.Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat>(name, new PersistorStub(), new WebAccessDummy(),
+                    new BusinessLogicStub(false, new AudioFormatResultContent(), Status.NotCalculated), new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bP.Fix);
         }
 
@@ -67,11 +59,9 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.AudioForm
         {
             const BestPracticeName name = BestPracticeName.Audio_Format;
             var bP =
-                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat) BestPracticeFactory
-                    .Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat>(name,
-                        new PersistorStub(), new WebAccessDummy(),
-                        new BusinessLogicStub(false, new AudioFormatResultContent(), Status.NotCalculated),
-                        new ResultEditorFactoryDummy());
+                (BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat)
+                BestPracticeFactory.Create<BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat.AudioFormat>(name, new PersistorStub(), new WebAccessDummy(),
+                    new BusinessLogicStub(false, new AudioFormatResultContent(), Status.NotCalculated), new ResultEditorFactoryDummy());
             Assert.DoesNotThrow(bP.ShowResults);
         }
     }

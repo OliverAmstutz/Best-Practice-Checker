@@ -7,7 +7,7 @@ using UnityEditor;
 
 namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.CodeAnalyser
 {
-    public class CodeAnalyserBusinessLogic : IBusinessLogic<CodeAnalyserResultContent>
+    public sealed class CodeAnalyserBusinessLogic : IBusinessLogic<CodeAnalyserResultContent>
     {
         private const string RoslynAnalyzerLabel = "RoslynAnalyzer";
         private const string RootPath = "Assets";
@@ -37,33 +37,21 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.CodeAnalyser
 
             if (IdeIsNotSupported())
             {
-                _canBeFixed = false;
-                _status = Status.Error;
-                _result.Status(CodeAnalyserStatus.NotSupportedIde);
+                SetState(false, Status.Error, CodeAnalyserStatus.NotSupportedIde);
                 return;
             }
 
-            var codeAnalyserAsset = (DefaultAsset) _assetProvider.FindAsset("BestPracticeChecker", "dll");
+            var codeAnalyserAsset = (DefaultAsset) _assetProvider.FindAssetOfNameAndFileExtension("BestPracticeChecker", "dll");
             if (codeAnalyserAsset != null)
             {
                 if (IsCorrectlySetup(codeAnalyserAsset))
-                {
-                    _canBeFixed = false;
-                    _status = Status.Ok;
-                    _result.Status(CodeAnalyserStatus.SetupOk);
-                }
+                    SetState(false, Status.Ok, CodeAnalyserStatus.SetupOk);
                 else
-                {
-                    _canBeFixed = true;
-                    _status = Status.Warning;
-                    _result.Status(CodeAnalyserStatus.SetupMisconfigured);
-                }
+                    SetState(true, Status.Warning, CodeAnalyserStatus.SetupMisconfigured);
             }
             else
             {
-                _canBeFixed = true;
-                _status = Status.Error;
-                _result.Status(CodeAnalyserStatus.NoCodeAnalyser);
+                SetState(true, Status.Error, CodeAnalyserStatus.NoCodeAnalyser);
             }
         }
 
@@ -84,11 +72,18 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.CodeAnalyser
 
         public void Fix()
         {
-            var codeAnalyserAsset = (DefaultAsset) _assetProvider.FindAsset("BestPracticeChecker", "dll");
+            var codeAnalyserAsset = (DefaultAsset) _assetProvider.FindAssetOfNameAndFileExtension("BestPracticeChecker", "dll");
             if (codeAnalyserAsset == null)
                 SetupCodeAnalyser();
             else
                 ConfigureCodeAnalyser(codeAnalyserAsset);
+        }
+
+        private void SetState(bool canBeFixed, Status status, CodeAnalyserStatus codeAnalyserStatus)
+        {
+            _canBeFixed = canBeFixed;
+            _status = status;
+            _result.Status(codeAnalyserStatus);
         }
 
         private void SetupCodeAnalyser()
@@ -107,13 +102,12 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.CodeAnalyser
                 pathToBpcDll = "Packages/ch.hslu.bestpracticechecker/Editor/UI/Resources/BestPracticeChecker.dll";
             else if (File.Exists("Assets/BestPracticeChecker/Editor/UI/Resources/BestPracticeChecker.dll"))
                 pathToBpcDll = "Assets/BestPracticeChecker/Editor/UI/Resources/BestPracticeChecker.dll";
-            if (pathToBpcDll != string.Empty && !AssetDatabase.CopyAsset(pathToBpcDll,
-                    RootPath + "/" + DefaultEditorPath + "/" + DefaultPluginPath + "/" + "BestPracticeChecker.dll"))
-                throw new ArgumentException("Could not copy BestPracticeChecker.dll asset to new path: " + RootPath +
-                                            "/" + DefaultEditorPath + "/" + DefaultPluginPath + "/" +
+            if (pathToBpcDll != string.Empty &&
+                !AssetDatabase.CopyAsset(pathToBpcDll, RootPath + "/" + DefaultEditorPath + "/" + DefaultPluginPath + "/" + "BestPracticeChecker.dll"))
+                throw new ArgumentException("Could not copy BestPracticeChecker.dll asset to new path: " + RootPath + "/" + DefaultEditorPath + "/" + DefaultPluginPath + "/" +
                                             "BestPracticeChecker.dll");
             AssetDatabase.Refresh();
-            SetLabel((DefaultAsset) _assetProvider.FindAsset("BestPracticeChecker", "dll"));
+            SetLabel((DefaultAsset) _assetProvider.FindAssetOfNameAndFileExtension("BestPracticeChecker", "dll"));
         }
 
         private bool IdeIsNotSupported()

@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.PackageUtility
 {
-    public class EvaluateVersionControlStatusTest
+    public sealed class EvaluateVersionControlStatusTest
     {
         [Test]
         public void TestEvaluateHiddenMetaFiles()

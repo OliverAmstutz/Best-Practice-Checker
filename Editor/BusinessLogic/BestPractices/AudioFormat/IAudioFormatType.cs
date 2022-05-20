@@ -1,12 +1,12 @@
 ﻿namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat
 {
     /// <summary>
-    ///     Utility for Unity's version control status.
+    ///     Utility for Unity's supported audio formats.
     /// </summary>
     public interface IAudioFormatType
     {
         /// <summary>
-        ///     Evaluates Unity's version control status.
+        ///     Evaluates Unity's audio format.
         /// </summary>
         /// <param name="mode"></param>
         /// <returns></returns>

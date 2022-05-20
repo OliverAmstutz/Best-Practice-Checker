@@ -2,7 +2,7 @@
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.PackageUtility
 {
-    public class VersionControlStatusStub : IVersionControlStatus
+    public sealed class VersionControlStatusStub : IVersionControlStatus
     {
         private readonly UnityVersionControl _unityVersionControl;
 

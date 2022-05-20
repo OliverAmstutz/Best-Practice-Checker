@@ -21,18 +21,18 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices
         void ShowResults();
 
         /// <summary>
-        ///     Returns the Result object implementing the IResult marker interface.
+        ///     Returns the Result object.
         /// </summary>
         /// <returns>IResult marker interface.</returns>
         IResult GetResult();
 
         /// <summary>
-        ///     Opens a link to the best practice documentation.
+        ///     Show best practice documentation.
         /// </summary>
         void ShowDocumentation();
 
         /// <summary>
-        ///     Updates context according best practices.
+        ///     Fix best practices.
         /// </summary>
         /// <returns>Boolean if the operation was successful.</returns>
         void Fix();
@@ -44,15 +44,15 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices
         bool HasFix();
 
         /// <summary>
-        ///     Returns the current <c>Status</c> of the best practice.
+        ///     Returns the current Status of the best practice.
         /// </summary>
         /// <returns>Status enum.</returns>
         Status GetCalculationStatus();
 
         /// <summary>
-        ///     Returns the best practice enum.
+        ///     Returns the best practice name.
         /// </summary>
-        /// <returns>BestPracticeNames enum.</returns>
-        BestPracticeName GetName();
+        /// <returns></returns>
+        string GetName();
     }
 }

@@ -3,7 +3,7 @@ using BestPracticeChecker.Editor.BusinessLogic.PackageUtility;
 
 namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.CodeCoverage
 {
-    public class CodeCoverageBusinessLogic : IBusinessLogic<CodeCoverageResultContent>
+    public sealed class CodeCoverageBusinessLogic : IBusinessLogic<CodeCoverageResultContent>
     {
         private const string CodeCoveragePackageName = "com.unity.testtools.codecoverage";
         private readonly IPackageUtility _pu;
@@ -28,23 +28,13 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.CodeCoverage
             if (_pu.PackageExists(CodeCoveragePackageName))
             {
                 if (_pu.IsUpToDate(CodeCoveragePackageName))
-                {
-                    _canBeFixed = false;
-                    _status = Status.Ok;
-                    _result.Status(PackageStatus.UpToDate);
-                }
+                    SetStatus(false, Status.Ok, PackageStatus.UpToDate);
                 else
-                {
-                    _canBeFixed = true;
-                    _status = Status.Warning;
-                    _result.Status(PackageStatus.Outdated);
-                }
+                    SetStatus(true, Status.Warning, PackageStatus.Outdated);
             }
             else
             {
-                _canBeFixed = true;
-                _status = Status.Error;
-                _result.Status(PackageStatus.NotInstalled);
+                SetStatus(true, Status.Error, PackageStatus.NotInstalled);
             }
         }
 
@@ -66,6 +56,13 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.CodeCoverage
         public void Fix()
         {
             InstallLatestTestFramework();
+        }
+
+        private void SetStatus(bool canBeFixed, Status status, PackageStatus packageStatus)
+        {
+            _canBeFixed = canBeFixed;
+            _status = status;
+            _result.Status(packageStatus);
         }
 
         private void InstallLatestTestFramework()

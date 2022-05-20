@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl
 {
-    public class SourceControlBusinessLogic : IBusinessLogic<SourceControlResultContent>
+    public sealed class SourceControlBusinessLogic : IBusinessLogic<SourceControlResultContent>
     {
         private const string UnityVersionControlPackage = "com.unity.collab-proxy";
         private const string GitFolderName = ".git";
@@ -17,13 +17,11 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl
         private SourceControlResultContent _result;
         private Status _status;
 
-        public SourceControlBusinessLogic() : this(new AssetsProvider.AssetsProvider(),
-            new PackageUtility.PackageUtility(), new VersionControlStatus())
+        public SourceControlBusinessLogic() : this(new AssetsProvider.AssetsProvider(), new PackageUtility.PackageUtility(), new VersionControlStatus())
         {
         }
 
-        public SourceControlBusinessLogic(IAssetsProvider assetsProvider, IPackageUtility packageUtility,
-            IVersionControlStatus versionControlStatus)
+        public SourceControlBusinessLogic(IAssetsProvider assetsProvider, IPackageUtility packageUtility, IVersionControlStatus versionControlStatus)
         {
             _pu = packageUtility;
             _assetsProvider = assetsProvider;
@@ -32,8 +30,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl
 
         public void Evaluation()
         {
-            var gitFolderExists =
-                _assetsProvider.FindFolderFromStartPath(GitFolderName, Directory.GetCurrentDirectory());
+            var gitFolderExists = _assetsProvider.FindFolderFromStartPath(GitFolderName, Directory.GetCurrentDirectory());
             var versionControlSetting = _versionControlStatus.Evaluate(VersionControlSettings.mode);
             _canBeFixed = false;
             _result = new SourceControlResultContent();
@@ -61,9 +58,14 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl
         public void Fix()
         {
             if (_canBeFixed)
-                _pu.InstallLatestPackage(UnityVersionControlPackage);
+                InstallLatestVersionControlPackage();
             else
                 throw new InvalidOperationException("Fix should not be called if fix doesnt exist!");
+        }
+
+        private void InstallLatestVersionControlPackage()
+        {
+            _pu.InstallLatestPackage(UnityVersionControlPackage);
         }
 
         private void UseUnityVersionControl(UnityVersionControl versionControlSetting)
@@ -73,44 +75,57 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.SourceControl
             {
                 case PackageStatus.UpToDate:
                 {
-                    if (versionControlSetting == UnityVersionControl.HiddenMetaFiles ||
-                        versionControlSetting == UnityVersionControl.VisibleMetaFiles)
-                    {
-                        _status = Status.Warning;
-                        _result.Status(SourceControlStatus.UnityVersionControlOkAndVersionControlSetting);
-                        break;
-                    }
-
-                    _status = Status.Ok;
-                    _result.Status(SourceControlStatus.UnityVersionControlOk);
+                    StatePackageUpToDate(versionControlSetting);
                     break;
                 }
                 case PackageStatus.Outdated:
                 {
-                    _status = Status.Warning;
-                    if (versionControlSetting == UnityVersionControl.HiddenMetaFiles ||
-                        versionControlSetting == UnityVersionControl.VisibleMetaFiles)
-                    {
-                        _canBeFixed = true;
-                        _result.Status(SourceControlStatus.UnityVersionControlOutdatedAndVersionControlSetting);
-                    }
-                    else
-                    {
-                        _canBeFixed = true;
-                        _result.Status(SourceControlStatus.UnityVersionControlOutdated);
-                    }
-
+                    StatePackageOutdated(versionControlSetting);
                     break;
                 }
                 case PackageStatus.NotInstalled:
                 {
-                    _status = Status.Error;
-                    _result.Status(SourceControlStatus.NoSourceControl);
+                    StatePackageNotInstalled();
                     break;
                 }
+                case PackageStatus.NotInitialised:
                 default:
                     throw new InvalidOperationException("Not supported package status " + packageStatus);
             }
+        }
+
+        private void StatePackageNotInstalled()
+        {
+            _status = Status.Error;
+            _result.Status(SourceControlStatus.NoSourceControl);
+        }
+
+        private void StatePackageOutdated(UnityVersionControl versionControlSetting)
+        {
+            _status = Status.Warning;
+            if (versionControlSetting == UnityVersionControl.HiddenMetaFiles || versionControlSetting == UnityVersionControl.VisibleMetaFiles)
+            {
+                _canBeFixed = true;
+                _result.Status(SourceControlStatus.UnityVersionControlOutdatedAndVersionControlSetting);
+            }
+            else
+            {
+                _canBeFixed = true;
+                _result.Status(SourceControlStatus.UnityVersionControlOutdated);
+            }
+        }
+
+        private void StatePackageUpToDate(UnityVersionControl versionControlSetting)
+        {
+            if (versionControlSetting == UnityVersionControl.HiddenMetaFiles || versionControlSetting == UnityVersionControl.VisibleMetaFiles)
+            {
+                _status = Status.Warning;
+                _result.Status(SourceControlStatus.UnityVersionControlOkAndVersionControlSetting);
+                return;
+            }
+
+            _status = Status.Ok;
+            _result.Status(SourceControlStatus.UnityVersionControlOk);
         }
 
         private void UseGit(UnityVersionControl versionControlSetting)

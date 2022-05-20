@@ -1,6 +1,6 @@
 ﻿namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat
 {
-    public class AudioFormatType : IAudioFormatType
+    public sealed class AudioFormatType : IAudioFormatType
     {
         public SupportedAudioFormat Evaluate(string mode)
         {

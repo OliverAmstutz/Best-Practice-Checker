@@ -50,19 +50,26 @@ namespace BestPracticeChecker.Editor.UI.BestPractices.AudioFormat
                 Debug.LogWarning("_bestPractice is null!");
         }
 
-        private void DisplayNotIdealAudioClips(List<string> audioClipPaths)
+        private void DisplayNotIdealAudioClips(IReadOnlyList<string> audioClipPaths)
         {
-            if (audioClipPaths.Count == 0) return;
+            if (audioClipPaths.Count <= 0) return;
             using (new GUILayout.VerticalScope(EditorStyles.helpBox))
             {
-                foreach (var audioClip in audioClipPaths.Select(AssetDatabase.LoadAssetAtPath<AudioClip>)
-                             .Where(audioClip => audioClip != null))
-                    using (new GUILayout.HorizontalScope(EditorStyles.helpBox))
-                    {
-                        if (GUILayout.Button("View " + audioClip.name))
-                            Highlighter.HighlightObject(audioClip);
-                        GUILayout.Label("audio format: " + _assetsProvider.FileExtensionOfAsset(audioClip));
-                    }
+                DisplayAllNonIdeals(audioClipPaths);
+            }
+        }
+
+        private void DisplayAllNonIdeals(IReadOnlyList<string> audioClipPaths)
+        {
+            foreach (var audioClip in audioClipPaths.Select(AssetDatabase.LoadAssetAtPath<AudioClip>).Where(audioClip => audioClip != null)) DisplayNonIdealAudioFile(audioClip);
+        }
+
+        private void DisplayNonIdealAudioFile(AudioClip audioClip)
+        {
+            using (new GUILayout.HorizontalScope(EditorStyles.helpBox))
+            {
+                if (GUILayout.Button(new GUIContent("View " + audioClip.name, "Shows asset in project hierarchy"))) Highlighter.HighlightObject(audioClip);
+                GUILayout.Label("audio format: " + _assetsProvider.FileExtensionOfAsset(audioClip));
             }
         }
     }

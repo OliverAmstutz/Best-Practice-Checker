@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BestPracticeChecker.Editor.BusinessLogic.WebAccess
 {
-    public class WebAccess : IWebAccess
+    public sealed class WebAccess : IWebAccess
     {
         private const string URLRoot = "https://github.com/OliverAmstutz/Best-Practice-Checker/wiki/";
 

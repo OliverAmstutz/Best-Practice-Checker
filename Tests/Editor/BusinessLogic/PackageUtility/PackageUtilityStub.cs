@@ -1,9 +1,8 @@
 ﻿using BestPracticeChecker.Editor.BusinessLogic.PackageUtility;
-using BestPracticeChecker.Editor.BusinessLogic.Persistor;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.PackageUtility
 {
-    public class PackageUtilityStub : IPackageUtility
+    public sealed class PackageUtilityStub : IPackageUtility
     {
         private readonly bool _isUpToDate;
         private readonly bool _packageExists;
@@ -32,11 +31,6 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.PackageUtility
         }
 
         public void InstallLatestPackage(string packageName)
-        {
-            //no implementation.
-        }
-
-        public void RemovePackage(string packageName)
         {
             //no implementation.
         }

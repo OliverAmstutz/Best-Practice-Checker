@@ -2,7 +2,7 @@
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.PreferenceUtility
 {
-    public class PreferencesStub : IPreferences
+    public sealed class PreferencesStub : IPreferences
     {
         private readonly Ide _ide;
         public PreferencesStub(Ide ide)

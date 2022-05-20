@@ -33,21 +33,19 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
         public override void Fix()
         {
             BusinessLogic.Fix();
-
             EditorCoroutineUtility.StartCoroutineOwnerless(Evaluation());
         }
 
         public override void ShowResults()
         {
-            ResultEditorFactory.InitialiseResultWindow<TextureRatioResult>(this);
+            Window = ResultEditorFactory.InitialiseResultWindow<TextureRatioResult>(this);
         }
 
         protected override void LoadPersistedData()
         {
             _canBeFixed = Persistor.Load(CLASS_KEY + ObjectKey + CanBeFixedVarKey, false);
             status = (Status) Persistor.Load(CLASS_KEY + ObjectKey + STATUS_VAR_KEY, 0);
-            _result = JsonUtility.FromJson<TextureRatioResultContent>(Persistor.Load(
-                CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(new TextureRatioResultContent())));
+            _result = JsonUtility.FromJson<TextureRatioResultContent>(Persistor.Load(CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(new TextureRatioResultContent())));
         }
 
         protected override void PersistData()

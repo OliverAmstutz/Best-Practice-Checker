@@ -8,6 +8,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
     {
         [SerializeField] private bool isUnCompressed;
         [SerializeField] private string texturePath;
+        private bool _isDirty;
 
         public FaultyTexture(string texturePath, bool isUnCompressed)
         {
@@ -38,6 +39,16 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
             hash = hash * 31 + texturePath.GetHashCode();
             hash = hash * 31 + isUnCompressed.GetHashCode();
             return hash;
+        }
+
+        public void SetDirty()
+        {
+            _isDirty = true;
+        }
+
+        public bool IsDirty()
+        {
+            return _isDirty;
         }
     }
 }

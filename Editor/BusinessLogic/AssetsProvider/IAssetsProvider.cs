@@ -4,8 +4,7 @@ using UnityEngine;
 namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
 {
     /// <summary>
-    ///     Provides Asset operating methods.
-    ///     Supports the following syntax:
+    ///     Provides Asset operating methods. Supports the following syntax:
     ///     't:type' syntax (e.g 't:Texture2D' will show Texture2D objects)
     ///     'l:assetLabel' syntax (e.g 'l:architecture' will show assets with AssetLabel 'architecture')
     ///     'ref[:id]:path' syntax (e.g 'ref:1234' will show objects that references the object with instanceID 1234)
@@ -13,13 +12,12 @@ namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
     ///     's:softLockState' syntax (e.g 's:inprogress' will show objects that are modified by anyone (except you))
     ///     'a:area' syntax (e.g 'a:all' will s search in all assets, 'a:assets' will s search in assets folder only and
     ///     'a:packages' will s search in packages folder only)
-    ///     'glob:path' syntax (e.g 'glob:Assets/**/*.{png|PNG}' will show objects in any subfolder with name ending by .png or
-    ///     .PNG)
+    ///     'glob:path' syntax (e.g 'glob:Assets/**/*.{png|PNG}' will show objects in any subfolder with name ending by .png or .PNG)
     /// </summary>
     public interface IAssetsProvider
     {
         /// <summary>
-        ///     Returns a Collection of assets of type in given folder.
+        ///     Returns an immutable list of assets of type in given folder.
         /// </summary>
         /// <param name="searchInFolders"></param>
         /// <typeparam name="T"></typeparam>
@@ -27,21 +25,14 @@ namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
         public IReadOnlyList<T> FindAllAssetsOfType<T>(string searchInFolders) where T : Object;
 
         /// <summary>
-        ///     Returns a list of all assets in the given folder to search for.
+        ///     Returns an immutable list of all assets in the given folder to search for.
         /// </summary>
         /// <param name="searchInFolder"></param>
         /// <returns></returns>
         public IReadOnlyList<Object> FindAllAssetsInFolder(string searchInFolder);
 
         /// <summary>
-        ///     Return boolean of the file exists within the assets folder.
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        public bool FindFileAssetFolder(string fileName);
-
-        /// <summary>
-        ///     Return boolean of a specific folder exists within the path.
+        ///     Return boolean of a specific folder existence within the given path.
         /// </summary>
         /// <param name="folderName"></param>
         /// <param name="path"></param>
@@ -49,7 +40,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
         public bool FindFolderFromStartPath(string folderName, string path);
 
         /// <summary>
-        ///     Returns file ending of an asset. For example ".wav" for an audio clip.
+        ///     Returns file ending of an asset. For example ".wav" for an Waveform Audio File format.
         /// </summary>
         /// <param name="asset"></param>
         /// <returns></returns>
@@ -57,11 +48,11 @@ namespace BestPracticeChecker.Editor.BusinessLogic.AssetsProvider
 
 
         /// <summary>
-        ///     Returns optional of first found asset of given type, name and file extension.
+        ///     Returns first found asset of given name and file extension.
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="fileExtension"></param>
         /// <returns></returns>
-        public Object FindAsset(string fileName, string fileExtension);
+        public Object FindAssetOfNameAndFileExtension(string fileName, string fileExtension);
     }
 }

@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TestFramework
 {
-    public class TestFrameworkBusinessLogicTest
+    public sealed class TestFrameworkBusinessLogicTest
     {
         [Test]
         public void TestEvaluationOk()
@@ -18,7 +18,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TestFrame
             Assert.IsFalse(bL.CanBeFixed());
             Assert.That(bL.GetStatus() == Status.Ok);
         }
-        
+
         [Test]
         public void TestEvaluationWarning()
         {
@@ -28,7 +28,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TestFrame
             Assert.IsTrue(bL.CanBeFixed());
             Assert.That(bL.GetStatus() == Status.Warning);
         }
-        
+
         [Test]
         public void TestEvaluationError()
         {
@@ -38,15 +38,14 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TestFrame
             Assert.IsTrue(bL.CanBeFixed());
             Assert.That(bL.GetStatus() == Status.Error);
         }
-        
+
         [Test]
         public void TestEvaluationPackageUtilityNull()
         {
             var bL = new TestFrameworkBusinessLogic(null);
             Assert.Throws<NullReferenceException>(bL.Evaluation);
-            
         }
-        
+
         [Test]
         public void TestFix()
         {

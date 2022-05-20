@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRatio
 {
-    public class FaultyTextureTest
+    public sealed class FaultyTextureTest
     {
         [Test]
         public void TestEqualsTrue()
@@ -19,18 +19,15 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
         [Test]
         public void TestEqualsFalseNonEqual()
         {
-            var faulty1 =
-                new FaultyTexture("Path1", true);
-            var faulty2 =
-                new FaultyTexture("Path2", true);
+            var faulty1 = new FaultyTexture("Path1", true);
+            var faulty2 = new FaultyTexture("Path2", true);
             Assert.IsFalse(faulty1.Equals(faulty2));
         }
 
         [Test]
         public void TestEqualsFalseNotType()
         {
-            var faulty1 =
-                new FaultyTexture(AssetDatabase.GetAssetPath(new Texture2D(2, 2, TextureFormat.ARGB32, false)), true);
+            var faulty1 = new FaultyTexture(AssetDatabase.GetAssetPath(new Texture2D(2, 2, TextureFormat.ARGB32, false)), true);
             Assert.IsFalse(faulty1.Equals(new Texture2D(2, 2, TextureFormat.ARGB32, false)));
         }
 
@@ -45,9 +42,8 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
         [Test]
         public void TestIsCompressed()
         {
-            var isCompressed = false;
-            var faulty = new FaultyTexture(AssetDatabase.GetAssetPath(new Texture2D(2, 2, TextureFormat.ARGB32, false)),
-                isCompressed);
+            const bool isCompressed = false;
+            var faulty = new FaultyTexture(AssetDatabase.GetAssetPath(new Texture2D(2, 2, TextureFormat.ARGB32, false)), isCompressed);
             Assert.IsTrue(faulty.IsUnCompressed().Equals(isCompressed));
         }
 
@@ -58,6 +54,15 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
             var faulty1 = new FaultyTexture(AssetDatabase.GetAssetPath(texture), false);
             var faulty2 = new FaultyTexture(AssetDatabase.GetAssetPath(texture), false);
             Assert.IsTrue(faulty1.GetHashCode().Equals(faulty2.GetHashCode()));
+        }
+
+        [Test]
+        public void TestIsDirty()
+        {
+            var faultyTexture = new FaultyTexture("notExisting", false);
+            Assert.IsFalse(faultyTexture.IsDirty());
+            faultyTexture.SetDirty();
+            Assert.IsTrue(faultyTexture.IsDirty());
         }
     }
 }

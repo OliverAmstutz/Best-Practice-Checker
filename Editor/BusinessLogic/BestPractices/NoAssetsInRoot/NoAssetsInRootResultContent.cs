@@ -17,8 +17,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot
                 BusinessLogic.Status.Ok =>
                     "Excellent, your root hierarchy is clean and organised.",
                 BusinessLogic.Status.Warning =>
-                    "You have assets in your root hierarchy!\n" +
-                    " It is recommended to use subdirectories for storing assets.",
+                    "You have assets in your root hierarchy!\n It is recommended to use subdirectories for storing assets.",
                 _ => "Something went wrong in the no assets in root initialization!"
             };
         }

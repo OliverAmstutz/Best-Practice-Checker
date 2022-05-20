@@ -3,12 +3,12 @@
 namespace BestPracticeChecker.Editor.UI.BestPractices
 {
     /// <summary>
-    /// A result editor factory.
+    ///     Factory for Result editor objects.
     /// </summary>
     public interface IResultEditorFactory
     {
         /// <summary>
-        /// Initialises the result editor of given best practice type.
+        ///     Initialises the result editor of given best practice type.
         /// </summary>
         /// <param name="bP"></param>
         /// <typeparam name="T"></typeparam>

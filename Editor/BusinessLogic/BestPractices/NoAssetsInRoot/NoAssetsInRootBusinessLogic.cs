@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot
 {
-    public class NoAssetsInRootBusinessLogic : IBusinessLogic<NoAssetsInRootResultContent>
+    public sealed class NoAssetsInRootBusinessLogic : IBusinessLogic<NoAssetsInRootResultContent>
     {
         private const string Root = "Assets";
         private const bool _canBeFixed = false;

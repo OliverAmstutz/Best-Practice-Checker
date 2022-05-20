@@ -29,15 +29,16 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices
 
         protected IPersistor Persistor = new Persistor.Persistor();
         protected IResultEditorFactory ResultEditorFactory;
+        protected ResultEditor Window;
 
         private void OnDestroy()
         {
             CleanUp();
         }
 
-        public BestPracticeName GetName()
+        public string GetName()
         {
-            return BpName;
+            return BestPracticeNameUtility.Name(BpName);
         }
 
         public void Run()
@@ -81,8 +82,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices
             LoadPersistedData();
         }
 
-        public void Init(IPersistor persistor, IWebAccess webAccess, IBusinessLogic<IResult> businessLogic,
-            IResultEditorFactory resultEditorFactory)
+        public void Init(IPersistor persistor, IWebAccess webAccess, IBusinessLogic<IResult> businessLogic, IResultEditorFactory resultEditorFactory)
         {
             Persistor = persistor;
             BusinessLogic = businessLogic;
@@ -94,6 +94,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices
         protected virtual void CleanUp()
         {
             PersistData();
+            if (Window != null) Window.Close();
             BestPracticeCheckerEditor.BeforeShutdown -= CleanUp;
         }
 

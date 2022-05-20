@@ -33,13 +33,12 @@ namespace BestPracticeChecker.Editor.UI.BestPractices
             return Create<T>(bpName, new Persistor(), new WebAccess(), null, new ResultEditorFactory());
         }
 
-        public static BestPracticeEntry Create<T>(BestPracticeName bpName,
-            IPersistor persistor, IWebAccess webAccess, IBusinessLogic<IResult> businessLogic,
+        public static BestPracticeEntry Create<T>(BestPracticeName bpName, IPersistor persistor, IWebAccess webAccess, IBusinessLogic<IResult> businessLogic,
             IResultEditorFactory resultEditorFactory) where T : BestPractice
         {
             var bp = BestPracticeFactory.Create<T>(bpName, persistor, webAccess, businessLogic, resultEditorFactory);
             var bpe = CreateInstance<BestPracticeEntry>();
-            bpe.Init(bp, bp.GetName().ToString(), persistor);
+            bpe.Init(bp, bp.GetName(), persistor);
             return bpe;
         }
     }

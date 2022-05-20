@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
 {
-    public class TextureRatioBusinessLogic : IBusinessLogic<TextureRatioResultContent>
+    public sealed class TextureRatioBusinessLogic : IBusinessLogic<TextureRatioResultContent>
     {
         private const string Root = "Assets";
         private readonly IAssetsProvider _assetsProvider;
@@ -64,7 +64,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
             var textureImporter = AssetImportProvider.ImporterForTexture(texture);
             if (textureImporter == null) return;
             var isUnCompressed = textureImporter.textureCompression.Equals(TextureImporterCompression.Uncompressed);
-            if (texture.width % 2 != 0 || texture.height % 2 != 0)
+            if (IsNotPowerOfTwo(texture))
             {
                 if (_status.Equals(Status.Ok))
                 {
@@ -83,11 +83,14 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
             }
         }
 
-        private static void FixTextureCompressionSetting(FaultyTexture faultyTexture)
+        public static bool IsNotPowerOfTwo(Texture texture)
         {
-            var textureImporter =
-                AssetImportProvider.ImporterForTexture(
-                    AssetDatabase.LoadAssetAtPath<Texture>(faultyTexture.TexturePath()));
+            return texture.width % 2 != 0 || texture.height % 2 != 0;
+        }
+
+        public static void FixTextureCompressionSetting(FaultyTexture faultyTexture)
+        {
+            var textureImporter = AssetImportProvider.ImporterForTexture(AssetDatabase.LoadAssetAtPath<Texture>(faultyTexture.TexturePath()));
             textureImporter.textureCompression = TextureImporterCompression.Compressed;
             textureImporter.SaveAndReimport();
         }

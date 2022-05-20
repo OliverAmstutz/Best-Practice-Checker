@@ -32,20 +32,20 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.NoAssetsInRoot
 
         public override void Fix()
         {
-            throw new NotImplementedException("No Assets in Root directory has no fix!");
+            throw new NotImplementedException("No Assets in Root Directory has no fix!");
         }
 
         public override void ShowResults()
         {
-            ResultEditorFactory.InitialiseResultWindow<NoAssetsInRootResult>(this);
+            Window = ResultEditorFactory.InitialiseResultWindow<NoAssetsInRootResult>(this);
         }
 
         protected override void LoadPersistedData()
         {
             _canBeFixed = Persistor.Load(CLASS_KEY + ObjectKey + CanBeFixedVarKey, false);
             status = (Status) Persistor.Load(CLASS_KEY + ObjectKey + STATUS_VAR_KEY, 0);
-            _result = JsonUtility.FromJson<NoAssetsInRootResultContent>(Persistor.Load(
-                CLASS_KEY + ObjectKey + ResultVarKey, JsonUtility.ToJson(new NoAssetsInRootResultContent())));
+            _result = JsonUtility.FromJson<NoAssetsInRootResultContent>(Persistor.Load(CLASS_KEY + ObjectKey + ResultVarKey,
+                JsonUtility.ToJson(new NoAssetsInRootResultContent())));
         }
 
         protected override void PersistData()

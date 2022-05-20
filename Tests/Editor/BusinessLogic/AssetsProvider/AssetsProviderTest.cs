@@ -10,8 +10,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
         [Test]
         public void IntegrationTestFindAllAssetsOfTypeTexture()
         {
-            var textures = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider()
-                .FindAllAssetsOfType<Texture>("Assets");
+            var textures = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAllAssetsOfType<Texture>("Assets");
             Assert.That(textures[8].name.Equals("4x4Texture"));
             Assert.That(textures[9].name.Equals("5x7Texture"));
         }
@@ -19,8 +18,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
         [Test]
         public void IntegrationTestFindAllAssetsOfTypeAudioClip()
         {
-            var audios = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider()
-                .FindAllAssetsOfType<AudioClip>("Assets");
+            var audios = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAllAssetsOfType<AudioClip>("Assets");
             Assert.That(audios[0].name.Equals("aiffAudio"));
             Assert.That(audios[1].name.Equals("itAudio"));
             Assert.That(audios[2].name.Equals("modAudio"));
@@ -34,52 +32,33 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
         [Test]
         public void TestFindAllAssetsOfTypeEmptyList()
         {
-            Assert.IsEmpty(new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider()
-                .FindAllAssetsOfType<TestFindAssetTest>("Assets"));
-        }
-
-        [Test]
-        public void TestFindFileAssetFolderTrue()
-        {
-            Assert.True(
-                new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindFileAssetFolder(
-                    "Scripts.meta"));
+            Assert.IsEmpty(new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAllAssetsOfType<TestFindAssetTest>("Assets"));
         }
 
         [Test]
         public void TestFindFolderFromStartPathTrue()
         {
-            Assert.True(
-                new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindFolderFromStartPath(
-                    "Scripts", "./Assets"));
+            Assert.True(new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindFolderFromStartPath("Scripts", "./Assets"));
         }
 
         [Test]
         public void TestFindFolderFromStartPathGit()
         {
-            Assert.True(
-                new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindFolderFromStartPath(
-                    ".git",
-                    "./Assets"));
+            Assert.True(new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindFolderFromStartPath(".git", "./Assets"));
         }
 
 
         [Test]
         public void TestFindFolderFromStartPathNonexistent()
         {
-            Assert.False(
-                new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindFolderFromStartPath(
-                    "NonsenseFolderWhichDoesntExist", "./Assets"));
+            Assert.False(new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindFolderFromStartPath("NonsenseFolderWhichDoesntExist", "./Assets"));
         }
 
 
         [Test]
         public void TestFindFolderFromStartPathNonsensePath()
         {
-            Assert.False(
-                new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindFolderFromStartPath(
-                    ".git",
-                    "NonsensePathWhichDoesntExist"));
+            Assert.False(new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindFolderFromStartPath(".git", "NonsensePathWhichDoesntExist"));
         }
 
         [Test]
@@ -100,15 +79,13 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
         [Test]
         public void TestFileExtensionOfAssetWithoutExtension()
         {
-            Assert.That(new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider()
-                .FileExtensionOfAsset(new TestFindAssetTest()).Equals(""));
+            Assert.That(new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FileExtensionOfAsset(new TestFindAssetTest()).Equals(""));
         }
 
         [Test]
         public void TestFileExtensionOfAssetNull()
         {
-            Assert.That(new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider()
-                .FileExtensionOfAsset(new TestFindAssetTest()).Equals(""));
+            Assert.That(new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FileExtensionOfAsset(new TestFindAssetTest()).Equals(""));
         }
 
         [Test]
@@ -146,11 +123,11 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
         public void TestFindAsset()
         {
             var assetProvider = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider();
-            var obj = assetProvider.FindAsset("BestPracticeChecker", "dll");
+            var obj = assetProvider.FindAssetOfNameAndFileExtension("BestPracticeChecker", "dll");
             Assert.NotNull(obj);
             Assert.That(obj is DefaultAsset);
         }
-
+        
         private sealed class TestFindAssetTest : Object
         {
         }

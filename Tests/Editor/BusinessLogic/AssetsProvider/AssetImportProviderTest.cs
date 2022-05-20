@@ -5,13 +5,12 @@ using UnityEngine;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
 {
-    public class AssetImportProviderTest
+    public sealed class AssetImportProviderTest
     {
         [Test]
         public void TestImporterForTexture()
         {
-            var textures = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider()
-                .FindAllAssetsOfType<Texture>("Assets");
+            var textures = new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAllAssetsOfType<Texture>("Assets");
             Assert.NotNull(AssetImportProvider.ImporterForTexture(textures[8]));
             Assert.NotNull(AssetImportProvider.ImporterForTexture(textures[9]));
             Assert.NotNull(AssetImportProvider.ImporterForTexture(textures[10]));
@@ -21,9 +20,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
         [Test]
         public void TestImporterForPlugin()
         {
-            var plugin = (DefaultAsset) new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider()
-                .FindAsset(
-                    "BestPracticeChecker", "dll");
+            var plugin = (DefaultAsset) new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider().FindAssetOfNameAndFileExtension("BestPracticeChecker", "dll");
             Assert.NotNull(AssetImportProvider.ImporterForPlugin(plugin));
         }
 

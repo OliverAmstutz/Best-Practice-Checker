@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.CodeCoverage
 {
-    public class CodeCoverageResultContentTest
+    public sealed class CodeCoverageResultContentTest
     {
         [Test]
         public void TestCodeCoverageOk()
@@ -19,9 +19,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.CodeCover
         {
             var result = new CodeCoverageResultContent();
             result.Status(PackageStatus.Outdated);
-            Assert.That(result.Content()
-                .Contains(
-                    "Your code coverage package is outdated. Please update manually or through the \"fix\" button."));
+            Assert.That(result.Content().Contains("Your code coverage package is outdated. Please update manually or through the \"fix\" button."));
         }
 
 

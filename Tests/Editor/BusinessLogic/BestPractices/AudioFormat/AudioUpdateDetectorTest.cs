@@ -5,9 +5,10 @@ using UnityEditor;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.AudioFormat
 {
-    public class AudioUpdateDetectorTest
+    public sealed class AudioUpdateDetectorTest
     {
-        private int _counter = 0;
+        private int _counter;
+
         [Test]
         public void IntegrationTestOnPostprocessAllAssets()
         {
@@ -15,13 +16,13 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.AudioForm
             const string fileName = "WavAudio.wav";
             const string sourcePath = "./Assets/BestPracticeChecker/Tests/TestAssets/";
             const string targetPath = "Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/AudioFormat";
-            File.Copy(sourcePath+fileName, "./"+targetPath+"/"+fileName);
+            File.Copy(sourcePath + fileName, "./" + targetPath + "/" + fileName);
             AssetDatabase.Refresh();
             AssetDatabase.Refresh();
             AssetDatabase.DeleteAsset(targetPath + "/" + fileName);
             AssetDatabase.Refresh();
             AudioUpdateDetector.ImportAudio -= ImportAudioCounter;
-            Assert.That(_counter == 2); //Import and Delete count each as one
+            Assert.That(_counter == 2); //Copy and Delete count each as one
         }
 
         private void ImportAudioCounter()

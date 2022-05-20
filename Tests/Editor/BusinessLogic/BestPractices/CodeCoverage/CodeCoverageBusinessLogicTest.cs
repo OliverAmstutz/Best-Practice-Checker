@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.CodeCoverage
 {
-    public class CodeCoverageBusinessLogicTest
+    public sealed class CodeCoverageBusinessLogicTest
     {
         [Test]
         public void TestEvaluateOk()
@@ -16,7 +16,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.CodeCover
             Assert.That(bL.GetStatus() == Status.Ok);
             Assert.IsFalse(bL.CanBeFixed());
         }
-        
+
         [Test]
         public void TestEvaluateWarning()
         {
@@ -25,7 +25,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.CodeCover
             Assert.That(bL.GetStatus() == Status.Warning);
             Assert.IsTrue(bL.CanBeFixed());
         }
-                
+
         [Test]
         public void TestEvaluateError()
         {
@@ -34,7 +34,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.CodeCover
             Assert.That(bL.GetStatus() == Status.Error);
             Assert.IsTrue(bL.CanBeFixed());
         }
-        
+
         [Test]
         public void TestFix()
         {
@@ -42,14 +42,12 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.CodeCover
             bL.Evaluation();
             Assert.DoesNotThrow(bL.Fix);
         }
-        
+
         [Test]
         public void TestResult()
         {
             var bL = new CodeCoverageBusinessLogic(new PackageUtilityStub(false, true, PackageStatus.Outdated));
             Assert.IsNull(bL.Result());
         }
-
-        
     }
 }

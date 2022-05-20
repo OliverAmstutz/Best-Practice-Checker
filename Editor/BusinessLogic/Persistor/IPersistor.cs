@@ -1,7 +1,7 @@
 namespace BestPracticeChecker.Editor.BusinessLogic.Persistor
 {
     /// <summary>
-    ///     Persists data by save and load mechanism.
+    ///     Persists data through save and load mechanism.
     /// </summary>
     public interface IPersistor
     {
@@ -14,7 +14,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.Persistor
         void Save<T>(string key, T value);
 
         /// <summary>
-        ///     Loads value under Key, or if not available return default type.
+        ///     Loads value under Key, or if not available return default value.
         /// </summary>
         /// <param name="key"></param>
         /// <param name="defaultValue"></param>

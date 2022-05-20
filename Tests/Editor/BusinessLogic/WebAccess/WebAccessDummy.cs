@@ -3,7 +3,7 @@ using BestPracticeChecker.Editor.BusinessLogic.WebAccess;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.WebAccess
 {
-    public class WebAccessDummy : IWebAccess
+    public sealed class WebAccessDummy : IWebAccess
     {
         public void OpenDocumentation(BestPracticeName bp)
         {

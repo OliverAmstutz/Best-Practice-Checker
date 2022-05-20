@@ -14,11 +14,9 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
         {
             return status switch
             {
-                BusinessLogic.Status.Ok =>
-                    "Excellent, all your texture's width and height are based on two with compression enabled.",
+                BusinessLogic.Status.Ok => "Excellent, all your texture's width and height are based on two with compression enabled.",
                 BusinessLogic.Status.Warning =>
-                    "You have either textures which dimension are not based on two, or textures with compression turned off.\n" +
-                    " It is advised considering updating the listed textures below in order to optimise memory usage.",
+                    "You have either textures which dimension are not based on two, or textures with compression turned off.\n It is advised considering updating the listed textures below in order to optimise memory usage.",
                 _ => "Something went wrong in the texture ratio initialization!"
             };
         }

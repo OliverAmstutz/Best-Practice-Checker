@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace BestPracticeChecker.Editor.BusinessLogic.Persistor
 {
-    public class Persistor : IPersistor
+    public sealed class Persistor : IPersistor
     {
         public void Save<T>(string key, T value)
         {
@@ -52,7 +52,7 @@ namespace BestPracticeChecker.Editor.BusinessLogic.Persistor
                 }
                 default:
                 {
-                    throw new ArgumentException("Persistor load type not supported");
+                    throw new ArgumentException("Type " + defaultValue.GetType() + " not valid");
                 }
             }
         }

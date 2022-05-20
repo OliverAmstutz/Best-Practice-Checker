@@ -1,15 +1,16 @@
 ﻿using System;
 using BestPracticeChecker.Editor.BusinessLogic.BestPractices;
+using BestPracticeChecker.Editor.BusinessLogic.WebAccess;
 using NUnit.Framework;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.WebAccess
 {
-    public class WebAccessTest
+    public sealed class WebAccessTest
     {
         [Test]
         public void IntegrationTestOpenDocumentation()
         {
-            var webAccess = new BestPracticeChecker.Editor.BusinessLogic.WebAccess.WebAccess();
+            IWebAccess webAccess = new BestPracticeChecker.Editor.BusinessLogic.WebAccess.WebAccess();
             try
             {
                 webAccess.OpenDocumentation(BestPracticeName.Test_Framework);
@@ -17,8 +18,8 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.WebAccess
             catch (Exception e)
             {
                 Assert.Null(e);
-                return;
             }
+
             Assert.True(true);
         }
     }

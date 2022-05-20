@@ -5,19 +5,16 @@ using UnityEngine;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
 {
-    public class AssetsProviderStub : IAssetsProvider
+    public sealed class AssetsProviderStub : IAssetsProvider
     {
         private readonly List<Object> _allAssets;
         private readonly string _fileExtension;
-        private readonly bool _findAssetFolder;
         private readonly bool _findFolderFromStart;
         private readonly Object _foundAsset;
 
-        public AssetsProviderStub(List<Object> allAssets, bool findAssetFolder, bool findFolderFromStart,
-            string fileExtension, Object foundAsset)
+        public AssetsProviderStub(List<Object> allAssets, bool findFolderFromStart, string fileExtension, Object foundAsset)
         {
             _allAssets = allAssets;
-            _findAssetFolder = findAssetFolder;
             _findFolderFromStart = findFolderFromStart;
             _fileExtension = fileExtension;
             _foundAsset = foundAsset;
@@ -27,11 +24,6 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
         {
             var list = _allAssets.Cast<T>().ToList();
             return list.AsReadOnly();
-        }
-
-        public bool FindFileAssetFolder(string fileName)
-        {
-            return _findAssetFolder;
         }
 
         public bool FindFolderFromStartPath(string folderName, string path)
@@ -44,7 +36,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider
             return _fileExtension;
         }
 
-        public Object FindAsset(string fileName, string fileExtension)
+        public Object FindAssetOfNameAndFileExtension(string fileName, string fileExtension)
         {
             return _foundAsset;
         }

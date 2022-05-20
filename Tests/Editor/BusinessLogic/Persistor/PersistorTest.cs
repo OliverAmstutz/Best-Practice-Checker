@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.Persistor
 {
-    public class PersistorTest
+    public sealed class PersistorTest
     {
         private const string KeyRoot = "BEST_PRACTICE_CHECKER_PersistorTest_";
 
@@ -14,8 +14,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.Persistor
             const string methodName = "TestPersistBoolTrue";
             var p = new BestPracticeChecker.Editor.BusinessLogic.Persistor.Persistor();
             p.Save(KeyRoot + methodName, value);
-            var result = p.Load(KeyRoot + methodName, false);
-            Assert.True(result);
+            Assert.True(p.Load(KeyRoot + methodName, false));
         }
 
         [Test]
@@ -25,8 +24,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.Persistor
             const string methodName = "TestPersistBoolFalse";
             var p = new BestPracticeChecker.Editor.BusinessLogic.Persistor.Persistor();
             p.Save(KeyRoot + methodName, value);
-            var result = p.Load(KeyRoot + methodName, true);
-            Assert.False(result);
+            Assert.False(p.Load(KeyRoot + methodName, true));
         }
 
         [Test]
@@ -36,8 +34,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.Persistor
             const string methodName = "TestPersistInt";
             var p = new BestPracticeChecker.Editor.BusinessLogic.Persistor.Persistor();
             p.Save(KeyRoot + methodName, value);
-            var result = p.Load(KeyRoot + methodName, 0);
-            Assert.True(result == value);
+            Assert.That(p.Load(KeyRoot + methodName, 0).Equals(value));
         }
 
         [Test]
@@ -58,8 +55,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.Persistor
             const string methodName = "TestPersistInt";
             var p = new BestPracticeChecker.Editor.BusinessLogic.Persistor.Persistor();
             p.Save(KeyRoot + methodName, value);
-            var result = p.Load(KeyRoot + methodName, "default test string");
-            Assert.True(result.Equals(value));
+            Assert.That(p.Load(KeyRoot + methodName, "default test string").Equals(value));
         }
 
 
