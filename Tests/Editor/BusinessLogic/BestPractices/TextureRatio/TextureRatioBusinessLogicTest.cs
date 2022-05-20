@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using BestPracticeChecker.Editor.BusinessLogic;
 using BestPracticeChecker.Editor.BusinessLogic.AssetsProvider;
 using BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio;
@@ -13,7 +14,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
         [Test]
         public void TestEvaluationOk()
         {
-            var bL = new TextureRatioBusinessLogic("Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/TextureRatio");
+            var bL = new TextureRatioBusinessLogic("Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/TextureRatio", new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider(), new List<Texture>().AsReadOnly() );
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Ok);
             Assert.IsFalse(bL.CanBeFixed());
@@ -32,7 +33,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
             textureImporter.npotScale = TextureImporterNPOTScale.None;
             textureImporter.SaveAndReimport();
 
-            var bL = new TextureRatioBusinessLogic(targetPath);
+            var bL = new TextureRatioBusinessLogic(targetPath, new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider(), new List<Texture>().AsReadOnly());
             bL.Evaluation();
 
             AssetDatabase.Refresh();
@@ -57,7 +58,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
             textureImporter.textureCompression = TextureImporterCompression.Uncompressed;
             textureImporter.SaveAndReimport();
 
-            var bL = new TextureRatioBusinessLogic(targetPath);
+            var bL = new TextureRatioBusinessLogic(targetPath, new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider(), new List<Texture>().AsReadOnly());
             bL.Evaluation();
 
             AssetDatabase.Refresh();
@@ -80,7 +81,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
             var textureImporter = AssetImportProvider.ImporterForTexture(textures[0]);
             textureImporter.textureCompression = TextureImporterCompression.Uncompressed;
             textureImporter.SaveAndReimport();
-            var bL = new TextureRatioBusinessLogic(targetPath);
+            var bL = new TextureRatioBusinessLogic(targetPath, new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider(), new List<Texture>().AsReadOnly());
 
             bL.Evaluation();
 
@@ -104,7 +105,7 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.TextureRa
             var textureImporter = AssetImportProvider.ImporterForTexture(textures[0]);
             textureImporter.textureCompression = TextureImporterCompression.Uncompressed;
             textureImporter.SaveAndReimport();
-            var bL = new TextureRatioBusinessLogic(targetPath);
+            var bL = new TextureRatioBusinessLogic(targetPath, new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider(), new List<Texture>().AsReadOnly());
 
             bL.Evaluation();
             bL.Fix();

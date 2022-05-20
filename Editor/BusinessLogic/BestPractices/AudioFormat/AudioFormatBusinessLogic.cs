@@ -12,22 +12,22 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat
         private const string Root = "Assets";
         private const bool _canBeFixed = false;
         private readonly IAssetsProvider _assetsProvider;
+        private readonly IAudioFormatType _audioFormatType;
         private readonly string _rootFolder;
         private IReadOnlyList<AudioClip> _audios;
         private AudioFormatResultContent _result = new AudioFormatResultContent();
         private Status _status;
-        private IAudioFormatType _audioFormatType;
 
-        public AudioFormatBusinessLogic() : this(Root)
+        public AudioFormatBusinessLogic() : this(Root, new AssetsProvider.AssetsProvider(), new List<AudioClip>().AsReadOnly(), new AudioFormatType())
         {
         }
 
-        public AudioFormatBusinessLogic(string rootFolder)
+        public AudioFormatBusinessLogic(string rootFolder, IAssetsProvider assetsProvider, IReadOnlyList<AudioClip> audios, IAudioFormatType audioFormatType)
         {
             _rootFolder = rootFolder;
-            _assetsProvider = new AssetsProvider.AssetsProvider();
-            _audios = new List<AudioClip>().AsReadOnly();
-            _audioFormatType = new AudioFormatType();
+            _assetsProvider = assetsProvider;
+            _audios = audios;
+            _audioFormatType = audioFormatType;
         }
 
         public void Evaluation()

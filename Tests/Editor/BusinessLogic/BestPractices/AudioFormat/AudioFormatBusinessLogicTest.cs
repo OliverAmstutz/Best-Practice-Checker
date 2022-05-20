@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using BestPracticeChecker.Editor.BusinessLogic;
 using BestPracticeChecker.Editor.BusinessLogic.BestPractices.AudioFormat;
+using BestPracticeChecker.Tests.Editor.BusinessLogic.AssetsProvider;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.AudioFormat
 {
@@ -26,9 +30,10 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.AudioForm
         };
 
         [Test]
-        public void TestEvaluationOkNoAssets()
+        public void IntegrationTestEvaluationOkNoAssets()
         {
-            var bL = new AudioFormatBusinessLogic("Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/AudioFormat");
+            var bL = new AudioFormatBusinessLogic("Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/AudioFormat",
+                new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider(), new List<AudioClip>().AsReadOnly(), new AudioFormatType());
             bL.Evaluation();
             Assert.That(bL.GetStatus() == Status.Ok);
         }
@@ -40,7 +45,8 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.AudioForm
             const string targetPath = "Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/AudioFormat";
             File.Copy(sourcePath + fileName, "./" + targetPath + "/" + fileName);
             AssetDatabase.Refresh();
-            var bL = new AudioFormatBusinessLogic(targetPath);
+            var bL = new AudioFormatBusinessLogic(targetPath, new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider(), new List<AudioClip>().AsReadOnly(),
+                new AudioFormatType());
             bL.Evaluation();
             AssetDatabase.DeleteAsset(targetPath + "/" + fileName);
             AssetDatabase.Refresh();
@@ -54,7 +60,8 @@ namespace BestPracticeChecker.Tests.Editor.BusinessLogic.BestPractices.AudioForm
             const string targetPath = "Assets/BestPracticeChecker/Tests/Editor/BusinessLogic/BestPractices/AudioFormat";
             File.Copy(sourcePath + fileName, "./" + targetPath + "/" + fileName);
             AssetDatabase.Refresh();
-            var bL = new AudioFormatBusinessLogic(targetPath);
+            var bL = new AudioFormatBusinessLogic(targetPath, new BestPracticeChecker.Editor.BusinessLogic.AssetsProvider.AssetsProvider(), new List<AudioClip>().AsReadOnly(),
+                new AudioFormatType());
             bL.Evaluation();
             AssetDatabase.DeleteAsset(targetPath + "/" + fileName);
             AssetDatabase.Refresh();

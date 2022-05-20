@@ -15,15 +15,15 @@ namespace BestPracticeChecker.Editor.BusinessLogic.BestPractices.TextureRatio
         private Status _status;
         private IReadOnlyList<Texture> _textures;
 
-        public TextureRatioBusinessLogic() : this(Root)
+        public TextureRatioBusinessLogic() : this(Root, new AssetsProvider.AssetsProvider(), new List<Texture>().AsReadOnly())
         {
         }
 
-        public TextureRatioBusinessLogic(string rootFolder)
+        public TextureRatioBusinessLogic(string rootFolder, IAssetsProvider assetsProvider, IReadOnlyList<Texture> textures)
         {
             _rootFolder = rootFolder;
-            _assetsProvider = new AssetsProvider.AssetsProvider();
-            _textures = new List<Texture>().AsReadOnly();
+            _assetsProvider = assetsProvider;
+            _textures = textures;
         }
 
         public void Evaluation()
